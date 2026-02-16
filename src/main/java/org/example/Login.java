@@ -10,8 +10,10 @@ import java.sql.*;
 
 public class Login implements ActionListener {
 
+    //frame title(appears on top left)
     JFrame frame = new JFrame("LOGIN");
 
+    //welcome text
     JLabel titleLabel = new JLabel("WELCOME");
 
     JLabel userLabel = new JLabel("USERNAME");
@@ -25,6 +27,8 @@ public class Login implements ActionListener {
     JButton forgotPasswordButton = new JButton("FORGOT PASSWORD");
 
     JCheckBox showPassword = new JCheckBox("Show Password");
+
+    JButton resetButton = new JButton("Reset");
 
     public Login() {
 
@@ -59,8 +63,12 @@ public class Login implements ActionListener {
 
 
         forgotPasswordButton.setBounds(100, 340, 180, 35);
-        forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 12));
+        forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 13));
         forgotPasswordButton.setFocusable(false);
+
+        resetButton.setBounds(100,400,180,35);
+        resetButton.setFont(new Font("Arial", Font.BOLD, 15));
+        resetButton.setFocusable(false);
 
         frame.add(titleLabel);
         frame.add(userLabel);
@@ -70,10 +78,16 @@ public class Login implements ActionListener {
         frame.add(showPassword);
         frame.add(loginButton);
         frame.add(forgotPasswordButton);
+        frame.add(resetButton);
 
         loginButton.addActionListener(this);
+        frame.getRootPane().setDefaultButton(loginButton);
+
         showPassword.addActionListener(this);
+
         forgotPasswordButton.addActionListener(this);
+
+        resetButton.addActionListener(this);
 
 
         frame.setVisible(true);
@@ -120,14 +134,18 @@ public class Login implements ActionListener {
                 throw new RuntimeException(ex);
             }
 
-            //show password--need to review and explain code well
-            if (e.getSource() == showPassword) {
-                if (showPassword.isSelected()) {
-                    passwordField.setEchoChar((char) 0);
-                } else {
-                    passwordField.setEchoChar('●');
-                }
             }
+
+        //show password--need to review and explain code well
+        if (e.getSource() == showPassword) {
+            if (showPassword.isSelected()) {
+                passwordField.setEchoChar((char) 0);
+            } else {
+                passwordField.setEchoChar('●');
+            }
+
+            //code for forget password --> still thibking on what kind of method to implement
+            //code for reset page
         }
     }
 }

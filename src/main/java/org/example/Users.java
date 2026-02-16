@@ -20,10 +20,10 @@ public class Users extends JFrame{
         table = new JTable(model);
 
 
-        // define columns
+        //  Columns names
         model.addColumn("User ID");
         model.addColumn("Username");
-        model.addColumn("Password");
+      //  model.addColumn("Password");
         model.addColumn("Full Name");
         model.addColumn("Role ID");
         model.addColumn("Created At");
@@ -50,7 +50,7 @@ public class Users extends JFrame{
             Connection connection = DBConnection.getConnection();
 
 
-            String sql = "SELECT * FROM users";
+            String sql = "SELECT user_id,username,full_name,role_id, created_at FROM users";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -58,7 +58,7 @@ public class Users extends JFrame{
                 model.addRow(new Object[]{
                         rs.getInt("user_id"),
                         rs.getString("username"),
-                        rs.getString("password_hash"),
+                     //   rs.getString("password_hash"),
                         rs.getString("full_name"),
                         rs.getInt("role_id"),
                         rs.getTimestamp("created_at")
@@ -78,3 +78,5 @@ public class Users extends JFrame{
 
 
 }
+
+/* NOTES: password_hash has been commented/removed since i dont want it to appear on the user table(privacy concern)*/
