@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.config.DBConnection;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -141,11 +140,24 @@ public class Login implements ActionListener {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
             } else {
-                passwordField.setEchoChar('●');
+                passwordField.setEchoChar('*');
             }
 
             //code for forget password --> still thibking on what kind of method to implement
-            //code for reset page
+        }
+
+        //reset-->clearing all fields
+        if (e.getSource() == resetButton) {
+            userTextField.setText("");
+            passwordField.setText("");
+            showPassword.setSelected(false);
+            passwordField.setEchoChar('*'); // restore masking
+            userTextField.requestFocus();   // cursor back to username
+        }
+
+        if (e.getSource() == forgotPasswordButton){
+            JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!");
+
         }
     }
 }

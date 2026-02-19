@@ -30,12 +30,19 @@ public class Products extends JFrame {
         model.addColumn("Reorder Level");
         model.addColumn("Supplier ID");
 
+        JButton backButton;
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            dispose();
+            new Dashboard();
+        });
 
         loadProducts();
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
+        add(backButton,BorderLayout.SOUTH);
         setVisible(true);
 }
     private void loadProducts() {

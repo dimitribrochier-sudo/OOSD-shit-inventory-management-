@@ -34,6 +34,14 @@ public class Suppliers extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
+        JButton backButton;
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            dispose();
+            new Dashboard();
+        });
+
+        add(backButton,BorderLayout.SOUTH);
         setVisible(true);
 
     }

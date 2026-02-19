@@ -21,15 +21,15 @@ public class Dashboard extends JFrame {
     JButton productBtn = new JButton("Products");
     JButton logoutBtn = new JButton("Log Out");
 
-        userBtn.addActionListener(e -> new Users());
-        supplierBtn.addActionListener(e -> new Suppliers());
-        productBtn.addActionListener(e -> new Products());
+    userBtn.addActionListener(e -> new Users());
+    supplierBtn.addActionListener(e -> new Suppliers());
+    productBtn.addActionListener(e -> new Products());
 
-        logoutBtn.addActionListener(e -> {
-            dispose();       // close dashboard
-            new Login()      /*go to logon page */ ;});
+    logoutBtn.addActionListener(e -> {
+        dispose();       // close dashboard
+        new Login()      /*go to logon page */ ;});
 
-    setLayout(new GridLayout(3, 1, 10, 10));
+    setLayout(new GridLayout(3, 1, 12, 10));
     add(userBtn);
     add(supplierBtn);
     add(productBtn);
