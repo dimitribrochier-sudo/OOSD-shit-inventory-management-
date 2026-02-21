@@ -10,48 +10,65 @@ public class Dashboard extends JFrame {
 
     }
 
-    public Dashboard(int roleId){
-    setTitle("Dashboard");
-    setSize(400, 250);
-    setLocationRelativeTo(null);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public Dashboard(int roleId) {
+        setTitle("Dashboard");
+        setSize(450, 350);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-    JButton userBtn = new JButton("Users");
-    JButton supplierBtn = new JButton("Suppliers");
-    JButton productBtn = new JButton("Products");
-    JButton logoutBtn = new JButton("Log Out");
+        //Title
+        JLabel titleLabel = new JLabel("DASHBOARD", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+        add(titleLabel, BorderLayout.NORTH);
 
-    userBtn.addActionListener(e -> new Users());
-    supplierBtn.addActionListener(e -> new Suppliers());
-    productBtn.addActionListener(e -> new Products());
+        //banes button la
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(5, 1, 15, 15));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 60, 20, 60));
 
-    logoutBtn.addActionListener(e -> {
-        dispose();       // close dashboard
-        new Login()      /*go to logon page */ ;});
+        //cree button
+        JButton userBtn = new JButton("Users");
+        JButton supplierBtn = new JButton("Suppliers");
+        JButton productBtn = new JButton("Products");
+        JButton inv_transBtn = new JButton("Inventory Transaction");
+        JButton logoutBtn = new JButton("Log Out");
 
-    setLayout(new GridLayout(3, 1, 12, 10));
-    add(userBtn);
-    add(supplierBtn);
-    add(productBtn);
-    add(logoutBtn);
+        // ajoute button
+        buttonPanel.add(userBtn);
+        buttonPanel.add(supplierBtn);
+        buttonPanel.add(productBtn);
+        buttonPanel.add(inv_transBtn);
+        buttonPanel.add(logoutBtn);
 
-        // Role-based access control
+        add(buttonPanel, BorderLayout.CENTER);
+
+        //action banes buttom
+        userBtn.addActionListener(e -> new Users());
+        supplierBtn.addActionListener(e -> new Suppliers());
+        productBtn.addActionListener(e -> new Products());
+        inv_transBtn.addActionListener(e ->  JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
+        logoutBtn.addActionListener(e -> {
+            dispose();
+            new Login();
+        });
+
+        //role base thingy
         if (roleId == 1) {
-            // Admin: full access, all buttons enabled
+            // Admin – full access
             userBtn.setEnabled(true);
             productBtn.setEnabled(true);
             supplierBtn.setEnabled(true);
-            logoutBtn.setEnabled(true);
+            inv_transBtn.setEnabled(true);
 
-        } else if (roleId == 2) {
-            // Limited role: only products and suppliers
-            userBtn.setVisible(false); // hide the Users button
-            productBtn.setEnabled(true);
-            supplierBtn.setEnabled(true);
-            logoutBtn.setEnabled(true);
-
+        } else if (roleId == 2 || roleId == 3) {
+            // Limited role
+            userBtn.setVisible(false);
+            inv_transBtn.setEnabled(false);
         }
-    setVisible(true);
-}
 
+        setVisible(true);
+
+    }
 }
