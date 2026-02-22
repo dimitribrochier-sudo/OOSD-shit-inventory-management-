@@ -12,7 +12,7 @@ public class Dashboard extends JFrame {
 
     public Dashboard(int roleId) {
         setTitle("Dashboard");
-        setSize(450, 350);
+        setSize(450, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -25,13 +25,14 @@ public class Dashboard extends JFrame {
 
         //banes button la
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1, 15, 15));
+        buttonPanel.setLayout(new GridLayout(7, 1, 15, 15));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 60, 20, 60));
-
+        buttonPanel.setSize(250,60);
         //cree button
         JButton userBtn = new JButton("Users");
         JButton supplierBtn = new JButton("Suppliers");
         JButton productBtn = new JButton("Products");
+        JButton customerBtn = new JButton ("Customers");
         JButton inv_transBtn = new JButton("Inventory Transaction");
         JButton logoutBtn = new JButton("Log Out");
 
@@ -39,6 +40,7 @@ public class Dashboard extends JFrame {
         buttonPanel.add(userBtn);
         buttonPanel.add(supplierBtn);
         buttonPanel.add(productBtn);
+        buttonPanel.add(customerBtn);
         buttonPanel.add(inv_transBtn);
         buttonPanel.add(logoutBtn);
 
@@ -48,6 +50,7 @@ public class Dashboard extends JFrame {
         userBtn.addActionListener(e -> new Users());
         supplierBtn.addActionListener(e -> new Suppliers());
         productBtn.addActionListener(e -> new Products());
+        customerBtn.addActionListener(e->  JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
         inv_transBtn.addActionListener(e ->  JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
         logoutBtn.addActionListener(e -> {
             dispose();
@@ -64,7 +67,7 @@ public class Dashboard extends JFrame {
 
         } else if (roleId == 2 || roleId == 3) {
             // Limited role
-            userBtn.setVisible(false);
+            userBtn.setEnabled(false);
             inv_transBtn.setEnabled(false);
         }
 

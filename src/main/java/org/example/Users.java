@@ -39,17 +39,19 @@ public class Users extends JFrame{
         add(scrollPane, BorderLayout.CENTER);
 
         //All buttons
-        JPanel topPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
+        //creating a main top container to separates left and right buttons
+        JPanel topContainer = new JPanel(new BorderLayout());
 
+        //Everything on the left side
+        JPanel leftPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
         //find user by id
-        JButton findButton;
-
-        topPanel.add(new JLabel("Find By User ID:"));
+        leftPanel.add(new JLabel("Find By User ID:"));
         idField = new JTextField(8);
-        topPanel.add(idField);
+        leftPanel.add(idField);
 
-        findButton = new JButton("Find");
+        JButton findButton = new JButton("Find");
         findButton.addActionListener(e -> findUserById());
+        leftPanel.add(findButton);
 
         //show all-->a way to revert back after searching as the screen stays on the search result
         JButton showAllButton = new JButton("Show All");
@@ -57,6 +59,7 @@ public class Users extends JFrame{
             model.setRowCount(0);
             loadUsers();
         });
+        leftPanel.add(showAllButton);
 
         //back button--> go back to dashboard(need to fix position)
         JButton backButton;
@@ -66,6 +69,9 @@ public class Users extends JFrame{
             new Dashboard();
         });
 
+        //creating the right container
+        JPanel rightPanel=new JPanel((new FlowLayout(FlowLayout.RIGHT)));
+
         //deleting a row
         //tried to put a bin icon but it does not seem to fit in correctly
          /* ImageIcon binIcon= new ImageIcon("C:\\Users\\i\\Documents\\Inventory_Management\\src\\main\\java\\org\\example\\resoures\\images\\bin-svgrepo-com.png");
@@ -73,6 +79,7 @@ public class Users extends JFrame{
         Image scaledImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         binIcon = new ImageIcon(scaledImg); */
 
+        //delete button
         JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> deleteUser());
 
@@ -80,15 +87,20 @@ public class Users extends JFrame{
         JButton addButton = new JButton("Add");
         addButton.addActionListener(e -> AddUser());
 
+        //edit/update button
         JButton editButton = new JButton("Edit");
         editButton.addActionListener(e -> EditUser());
 
-        topPanel.add(findButton);
-        topPanel.add(showAllButton);
-        topPanel.add(deleteButton);
-        topPanel.add(addButton);
-        topPanel.add(editButton);
-        add(topPanel,BorderLayout.NORTH);
+        rightPanel.add(addButton);
+        rightPanel.add(editButton);
+        rightPanel.add(deleteButton);
+
+        //addind the left and right in the top container
+        topContainer.add(leftPanel, BorderLayout.WEST);
+        topContainer.add(rightPanel, BorderLayout.EAST);
+
+        //adding the top container and backbutton in the frame
+        add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
         setVisible(true);
 
@@ -366,7 +378,7 @@ public class Users extends JFrame{
 
             Connection connection = DBConnection.getConnection();
 
-            String sql = "SELECT user_id, username, full_name, role_id, created_at FROM users WHERE user_id = ?";
+            String sql = "SELECT user_id, username, full_name, password_hash, role_id, created_at FROM users WHERE user_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
 
@@ -379,7 +391,7 @@ public class Users extends JFrame{
                 model.addRow(new Object[]{
                         rs.getInt("user_id"),
                         rs.getString("username"),
-                        //   rs.getString("password_hash"),
+                          rs.getString("password_hash"),
                         rs.getString("full_name"),
                         rs.getInt("role_id"),
                         rs.getTimestamp("created_at")
