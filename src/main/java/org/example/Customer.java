@@ -9,29 +9,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class Suppliers extends JFrame {
+public class Customer extends JFrame {
+
     JTable table;
     DefaultTableModel model;
     JTextField idField;
 
-    public Suppliers() {
-        setTitle("Suppliers");
+    //SETTING FRAME
+    public Customer() {
+        setTitle("Customer");
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //SETTING THE TABLE
         model = new DefaultTableModel();
         table = new JTable(model);
 
-        model.addColumn("Supplier ID");
+        //Adding Columns names
+        model.addColumn("Customer ID");
         model.addColumn("Name");
-        model.addColumn("Contact NUmber");
-        model.addColumn("Email");
+        model.addColumn("Contact Number");
         model.addColumn("Address");
         model.addColumn("Created At");
 
-        loadSuppliers();
+        loadCustomers();
 
+        //added the table inside a scrollable panel(vertical)
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
@@ -41,23 +45,24 @@ public class Suppliers extends JFrame {
 
         //Everything on the left side
         JPanel leftPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
-        //find product by id
-        leftPanel.add(new JLabel("Find By Supplier ID:"));
+        //find Customer by id
+        leftPanel.add(new JLabel("Find By Customer ID:"));
         idField = new JTextField(8);
         leftPanel.add(idField);
 
         JButton findButton = new JButton("Find");
-        findButton.addActionListener(e -> findSupplierById());
+        findButton.addActionListener(e -> findCustomerById() );
         leftPanel.add(findButton);
 
         //show all-->a way to revert back after searching as the screen stays on the search result
         JButton showAllButton = new JButton("Show All");
         showAllButton.addActionListener(e -> {
             model.setRowCount(0);
-            loadSuppliers();
+            loadCustomers();
         });
         leftPanel.add(showAllButton);
 
+        //back button--> go back to dashboard(need to fix position)
         JButton backButton;
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
@@ -70,170 +75,77 @@ public class Suppliers extends JFrame {
 
         //delete button
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e ->  deleteSupplier());
+        deleteButton.addActionListener(e -> deleteCustomer());
 
         //Add/Create Button
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(e ->  AddSupplier());
+        addButton.addActionListener(e -> AddCustomer());
 
         //edit/update button
         JButton editButton = new JButton("Edit");
-        editButton.addActionListener(e ->  EditSupplier());
+        editButton.addActionListener(e -> EditCustomer());
 
         rightPanel.add(addButton);
         rightPanel.add(editButton);
         rightPanel.add(deleteButton);
 
-        //adding the left and right in the top container
+        //addind the left and right in the top container
         topContainer.add(leftPanel, BorderLayout.WEST);
         topContainer.add(rightPanel, BorderLayout.EAST);
 
         //adding the top container and backbutton in the frame
         add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
-
         setVisible(true);
 
+
+
     }
 
-    private void AddSupplier() {
-
-        // Create dialog
-        JDialog dialog = new JDialog(this, "Add Supplier", true);
-        dialog.setSize(400, 350);
-        dialog.setLocationRelativeTo(this);
-        dialog.setLayout(new BorderLayout());
-
-        // Title
-        JLabel titleLabel = new JLabel("ADD SUPPLIER", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
-        dialog.add(titleLabel, BorderLayout.NORTH);
-
-        // Form panel
-        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
-
-        JTextField nameField = new JTextField();
-        JTextField phoneField = new JTextField();
-        JTextField emailField = new JTextField();
-        JTextField addressField = new JTextField();
-
-        JButton addButton = new JButton("Add");
-        JButton cancelButton = new JButton("Cancel");
-
-        formPanel.add(new JLabel("Supplier Name:"));
-        formPanel.add(nameField);
-
-        formPanel.add(new JLabel("Phone:"));
-        formPanel.add(phoneField);
-
-        formPanel.add(new JLabel("Email:"));
-        formPanel.add(emailField);
-
-        formPanel.add(new JLabel("Address:"));
-        formPanel.add(addressField);
-
-        formPanel.add(addButton);
-        formPanel.add(cancelButton);
-
-        dialog.add(formPanel, BorderLayout.CENTER);
-
-        // Cancel button
-        cancelButton.addActionListener(e -> dialog.dispose());
-
-        // Add button
-        addButton.addActionListener(e -> {
-
-            String name = nameField.getText().trim();
-            String phone = phoneField.getText().trim();
-            String email = emailField.getText().trim();
-            String address = addressField.getText().trim();
-
-            if (name.isEmpty() || phone.isEmpty() ||
-                    email.isEmpty() || address.isEmpty()) {
-
-                JOptionPane.showMessageDialog(dialog, "All fields are required!");
-                return;
-            }
-
-            try {
-                Connection connection = DBConnection.getConnection();
-
-                String sql = "INSERT INTO suppliers (name, contact_number, email, address) VALUES (?, ?, ?, ?)";
-                PreparedStatement ps = connection.prepareStatement(sql);
-
-                ps.setString(1, name);
-                ps.setString(2, phone);
-                ps.setString(3, email);
-                ps.setString(4, address);
-
-                ps.executeUpdate();
-
-                JOptionPane.showMessageDialog(dialog, "Supplier added successfully!");
-                dialog.dispose();
-
-                // Refresh table
-                model.setRowCount(0);
-                loadSuppliers();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialog, "Error adding supplier.");
-            }
-        });
-
-        dialog.setVisible(true);
-    }
-
-    private void EditSupplier() {
+    // Edit Consumer
+    private void EditCustomer() {
 
         int selectedRow = table.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a supplier first.");
+            JOptionPane.showMessageDialog(this, "Please select a customer first.");
             return;
         }
 
         // Get selected row data
-        int supplierId = (int) model.getValueAt(selectedRow, 0);
+        int consumerId = (int) model.getValueAt(selectedRow, 0);
         String name = model.getValueAt(selectedRow, 1).toString();
-        String phone = model.getValueAt(selectedRow, 2).toString();
-        String email = model.getValueAt(selectedRow, 3).toString();
-        String address = model.getValueAt(selectedRow, 4).toString();
+        String contact = model.getValueAt(selectedRow, 2).toString();
+        String address = model.getValueAt(selectedRow, 3).toString();
 
         // Create dialog
-        JDialog dialog = new JDialog(this, "Edit Supplier", true);
-        dialog.setSize(400, 350);
+        JDialog dialog = new JDialog(this, "Edit Customer", true);
+        dialog.setSize(400, 320);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
         // Title
-        JLabel titleLabel = new JLabel("EDIT SUPPLIER", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("EDIT CUSTOMER", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
-        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField(name);
-        JTextField phoneField = new JTextField(phone);
-        JTextField emailField = new JTextField(email);
+        JTextField contactField = new JTextField(contact);
         JTextField addressField = new JTextField(address);
 
         JButton updateButton = new JButton("Update");
         JButton cancelButton = new JButton("Cancel");
 
-        formPanel.add(new JLabel("Supplier Name:"));
+        formPanel.add(new JLabel("Name:"));
         formPanel.add(nameField);
 
-        formPanel.add(new JLabel("Phone:"));
-        formPanel.add(phoneField);
-
-        formPanel.add(new JLabel("Email:"));
-        formPanel.add(emailField);
+        formPanel.add(new JLabel("Contact Number:"));
+        formPanel.add(contactField);
 
         formPanel.add(new JLabel("Address:"));
         formPanel.add(addressField);
@@ -243,97 +155,179 @@ public class Suppliers extends JFrame {
 
         dialog.add(formPanel, BorderLayout.CENTER);
 
-        // Cancel button
+        // Cancel
         cancelButton.addActionListener(e -> dialog.dispose());
 
-        // Update button
+        // Update
         updateButton.addActionListener(e -> {
 
             String newName = nameField.getText().trim();
-            String newPhone = phoneField.getText().trim();
-            String newEmail = emailField.getText().trim();
+            String newContact = contactField.getText().trim();
             String newAddress = addressField.getText().trim();
 
-            if (newName.isEmpty() || newPhone.isEmpty() ||
-                    newEmail.isEmpty() || newAddress.isEmpty()) {
-
-                JOptionPane.showMessageDialog(dialog, "All fields are required!");
+            if (newName.isEmpty()) {
+                JOptionPane.showMessageDialog(dialog, "Name is required!");
                 return;
             }
 
             try {
                 Connection connection = DBConnection.getConnection();
 
-                String sql = "UPDATE suppliers SET name=?,contact_number =?, email=?, address=? WHERE supplier_id=?";
+                String sql = "UPDATE customers SET name = ?, contact_number = ?, address = ? WHERE customer_id = ?";
                 PreparedStatement ps = connection.prepareStatement(sql);
 
                 ps.setString(1, newName);
-                ps.setString(2, newPhone);
-                ps.setString(3, newEmail);
-                ps.setString(4, newAddress);
-                ps.setInt(5, supplierId);
+                ps.setString(2, newContact);
+                ps.setString(3, newAddress);
+                ps.setInt(4, consumerId);
 
                 ps.executeUpdate();
 
-                JOptionPane.showMessageDialog(dialog, "Supplier updated successfully!");
+                JOptionPane.showMessageDialog(dialog, "Customer updated successfully!");
+
                 dialog.dispose();
 
                 // Refresh table
                 model.setRowCount(0);
-                loadSuppliers();
+                loadCustomers();
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialog, "Error updating supplier.");
+                JOptionPane.showMessageDialog(dialog, "Error updating customer.");
             }
         });
 
         dialog.setVisible(true);
     }
-    private void findSupplierById() {
+    // Create a customer
+    private void AddCustomer() {
+
+        // Create dialog
+        JDialog dialog = new JDialog(this, "Add Customer", true);
+        dialog.setSize(400, 320);
+        dialog.setLocationRelativeTo(this);
+        dialog.setLayout(new BorderLayout());
+
+        // Title
+        JLabel titleLabel = new JLabel("ADD CUSTOMER", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
+        dialog.add(titleLabel, BorderLayout.NORTH);
+
+        // Form panel
+        JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+
+        JTextField nameField = new JTextField();
+        JTextField contactField = new JTextField();
+        JTextField addressField = new JTextField();
+
+        JButton saveButton = new JButton("Save");
+        JButton cancelButton = new JButton("Cancel");
+
+        formPanel.add(new JLabel("Name:"));
+        formPanel.add(nameField);
+
+        formPanel.add(new JLabel("Contact Number:"));
+        formPanel.add(contactField);
+
+        formPanel.add(new JLabel("Address:"));
+        formPanel.add(addressField);
+
+        formPanel.add(saveButton);
+        formPanel.add(cancelButton);
+
+        dialog.add(formPanel, BorderLayout.CENTER);
+
+        // Cancel button
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        // Save button
+        saveButton.addActionListener(e -> {
+
+            String name = nameField.getText().trim();
+            String contact = contactField.getText().trim();
+            String address = addressField.getText().trim();
+
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(dialog, "Name is required!");
+                return;
+            }
+
+            try {
+                Connection connection = DBConnection.getConnection();
+
+                String sql = "INSERT INTO customers (name, contact_number, address) VALUES (?, ?, ?)";
+                PreparedStatement ps = connection.prepareStatement(sql);
+
+                ps.setString(1, name);
+                ps.setString(2, contact);
+                ps.setString(3, address);
+
+                ps.executeUpdate();
+
+                JOptionPane.showMessageDialog(dialog, "Customer added successfully!");
+
+                dialog.dispose();
+
+                // Refresh table
+                model.setRowCount(0);
+                loadCustomers();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(dialog, "Error adding customer.");
+            }
+        });
+
+        dialog.setVisible(true);
+    }
+
+    //find a customer by its ID
+    private void findCustomerById() {
         String input = idField.getText().trim();
 
         if (input.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Enter a Product ID");
+            JOptionPane.showMessageDialog(this, "Enter a Customer ID");
             return;
         }
 
         try {
+            //when passing data from frame, the data is ALWAYS in String, so have to do a string conversion, from string to int
             int id = Integer.parseInt(input);
 
             Connection connection = DBConnection.getConnection();
 
-            String sql = "SELECT * FROM suppliers WHERE supplier_id = ?";
+            String sql = "SELECT * FROM customers WHERE customer_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
 
-            // Clear table first
+            // clear table first
             model.setRowCount(0);
 
             if (rs.next()) {
                 model.addRow(new Object[]{
-                        rs.getInt("supplier_id"),
+                        rs.getInt("customer_id"),
                         rs.getString("name"),
                         rs.getString("contact_number"),
-                        rs.getString("email"),
                         rs.getString("address"),
                         rs.getTimestamp("created_at")
                 });
             } else {
-                JOptionPane.showMessageDialog(this, "Supplier not found");
+                JOptionPane.showMessageDialog(this, "Customer not found");
             }
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "ID must be a number");
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error fetching product");
         }
     }
 
-    private void deleteSupplier() {
+    //Delete a user
+    private void deleteCustomer() {
 
         int selectedRow = table.getSelectedRow();
 
@@ -349,7 +343,7 @@ public class Suppliers extends JFrame {
         // Confirmation dialog
         int confirm = JOptionPane.showConfirmDialog(
                 this,
-                "Are you sure you want to delete this supplier?",
+                "Are you sure you want to delete this customer?",
                 "Confirm Delete",
                 JOptionPane.YES_NO_OPTION
         );
@@ -359,39 +353,39 @@ public class Suppliers extends JFrame {
             try {
                 Connection connection = DBConnection.getConnection();
 
-                String sql = "DELETE FROM suppliers WHERE supplier_id = ?";
+                String sql = "DELETE FROM customers WHERE customer_id = ?";
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setInt(1, userId);
 
                 ps.executeUpdate();
 
-                JOptionPane.showMessageDialog(this, "suppplier deleted successfully!");
+                JOptionPane.showMessageDialog(this, "Customer deleted successfully!");
 
                 // Remove row from table
                 model.removeRow(selectedRow);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error deleting supplier.");
+                JOptionPane.showMessageDialog(this, "Error deleting customer.");
             }
         }
     }
 
-    private void loadSuppliers() {
+    //load the table
+    private void loadCustomers() {
         try {
             Connection connection = DBConnection.getConnection();
 
 
-            String sql = "SELECT * FROM Suppliers";
+            String sql = "SELECT * FROM customers";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 model.addRow(new Object[]{
-                        rs.getInt("supplier_id"),
+                        rs.getInt("customer_id"),
                         rs.getString("name"),
                         rs.getString("contact_number"),
-                        rs.getString("email"),
                         rs.getString("address"),
                         rs.getTimestamp("created_at")
                 });
@@ -402,9 +396,11 @@ public class Suppliers extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+    }
+    public static void main(String[] args) {
+        new Customer();
     }
 
-    public static void main(String[] args) {
-        new Suppliers();
-    }
     }

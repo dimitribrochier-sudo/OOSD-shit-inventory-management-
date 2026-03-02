@@ -119,7 +119,7 @@ public class Login implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Login Successful");
 
                     frame.dispose();
-                    new Dashboard(roleId); // pass role_id to dashboard
+                    new Dashboard(username, roleId); // pass role_id to dashboard
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid credentials");
                 }
@@ -143,7 +143,6 @@ public class Login implements ActionListener {
                 passwordField.setEchoChar('*');
             }
 
-            //code for forget password --> still thibking on what kind of method to implement
         }
 
         //reset-->clearing all fields
@@ -154,6 +153,8 @@ public class Login implements ActionListener {
             passwordField.setEchoChar('*'); // restore masking
             userTextField.requestFocus();   // cursor back to username
         }
+
+        //code for forget password --> still thibking on what kind of method to implement
 
         if (e.getSource() == forgotPasswordButton){
             JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!");

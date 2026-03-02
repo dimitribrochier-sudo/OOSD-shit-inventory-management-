@@ -5,12 +5,12 @@ import java.awt.*;
 
 public class Dashboard extends JFrame {
 
-    //enan 1 issue quand p retourne back a cause sa in met sa la, bizin redresser la
+    //obliger cree 1 empty constructor --> enan 1 issue quand p retourne back a cause sa in met sa la, bizin redresser la
     public Dashboard() {
 
     }
 
-    public Dashboard(int roleId) {
+    public Dashboard(String username,int roleId) {
         setTitle("Dashboard");
         setSize(450, 400);
         setLocationRelativeTo(null);
@@ -18,7 +18,8 @@ public class Dashboard extends JFrame {
         setLayout(new BorderLayout());
 
         //Title
-        JLabel titleLabel = new JLabel("DASHBOARD", SwingConstants.CENTER);
+        //swingconstant control alignment inside component
+        JLabel titleLabel = new JLabel("WELCOME " + username, SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         add(titleLabel, BorderLayout.NORTH);
@@ -32,6 +33,7 @@ public class Dashboard extends JFrame {
         JButton userBtn = new JButton("Users");
         JButton supplierBtn = new JButton("Suppliers");
         JButton productBtn = new JButton("Products");
+        JButton salesBtn = new JButton("Sales");
         JButton customerBtn = new JButton ("Customers");
         JButton inv_transBtn = new JButton("Inventory Transaction");
         JButton logoutBtn = new JButton("Log Out");
@@ -40,17 +42,20 @@ public class Dashboard extends JFrame {
         buttonPanel.add(userBtn);
         buttonPanel.add(supplierBtn);
         buttonPanel.add(productBtn);
+        buttonPanel.add(salesBtn);
         buttonPanel.add(customerBtn);
         buttonPanel.add(inv_transBtn);
         buttonPanel.add(logoutBtn);
 
+        //borderLayout controls where components are placed inside the container
         add(buttonPanel, BorderLayout.CENTER);
 
         //action banes buttom
         userBtn.addActionListener(e -> new Users());
         supplierBtn.addActionListener(e -> new Suppliers());
         productBtn.addActionListener(e -> new Products());
-        customerBtn.addActionListener(e->  JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
+        salesBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!") );
+        customerBtn.addActionListener(e-> new Customer());
         inv_transBtn.addActionListener(e ->  JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
         logoutBtn.addActionListener(e -> {
             dispose();
@@ -62,6 +67,7 @@ public class Dashboard extends JFrame {
             // Admin – full access
             userBtn.setEnabled(true);
             productBtn.setEnabled(true);
+            salesBtn.setEnabled(true);
             supplierBtn.setEnabled(true);
             inv_transBtn.setEnabled(true);
 

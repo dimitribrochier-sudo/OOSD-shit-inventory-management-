@@ -97,6 +97,7 @@ public class Products extends JFrame {
         setVisible(true);
 }
 
+    //ALLL FUNCTIONS
     private void findProductById() {
         String input = idField.getText().trim();
 
@@ -110,8 +111,7 @@ public class Products extends JFrame {
 
             Connection connection = DBConnection.getConnection();
 
-            String sql = "SELECT product_id, name, category, unit_price, current_stock, reorder_level, supplier_id " +
-                    "FROM products WHERE product_id = ?";
+            String sql = "SELECT * FROM products WHERE product_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
 
