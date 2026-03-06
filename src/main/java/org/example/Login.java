@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.config.DBConnection;
+import app.inventory_management.config.DBConnection;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

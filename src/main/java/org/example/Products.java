@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.config.DBConnection;
+import app.inventory_management.config.DBConnection;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

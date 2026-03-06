@@ -1,4 +1,4 @@
-package org.example.config;
+package app.inventory_management.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class DBConnection {
                 connection = DriverManager.getConnection(
                         "jdbc:mysql://127.0.0.1:3306/inventory_management",
                         "root",
-                        "password"
+                        ""
                 );
 
 
