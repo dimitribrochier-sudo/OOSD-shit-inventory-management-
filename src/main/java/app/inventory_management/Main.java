@@ -1,5 +1,5 @@
 package app.inventory_management;
-
+import app.inventory_management.views.DashboardScreen;
 
 import org.example.Login;
 
@@ -7,7 +7,7 @@ import org.example.Login;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Login loginForm= new Login();
+        DashboardScreen Dashboard = new DashboardScreen();
     }
 
 }

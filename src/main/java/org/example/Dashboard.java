@@ -11,7 +11,7 @@ public class Dashboard extends JFrame {
     }
 
     public Dashboard(String username,int roleId) {
-        setTitle("Dashboard");
+        setTitle("DashboardScreen");
         setSize(450, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
