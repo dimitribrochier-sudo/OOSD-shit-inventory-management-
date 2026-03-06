@@ -1,13 +1,10 @@
 package app.inventory_management.views;
 
-import app.inventory_management.config.DBConnection;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.*;
 import java.sql.*;
 
-public class LoginScreen implements ActionListener {
+public class LoginScreen  extends JFrame{
 
     //frame title(appears on top left)
     JFrame frame = new JFrame("LOGIN");
@@ -81,17 +78,6 @@ public class LoginScreen implements ActionListener {
         frame.add(loginButton);
         frame.add(forgotPasswordButton);
         frame.add(resetButton);
-
-        loginButton.addActionListener(this);
-
-
-        showPassword.addActionListener(this);
-
-        forgotPasswordButton.addActionListener(this);
-
-        resetButton.addActionListener(this);
-
-
 
 
     }
