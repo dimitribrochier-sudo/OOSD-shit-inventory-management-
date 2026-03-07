@@ -179,7 +179,7 @@ public class Suppliers extends JFrame {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialog, "Error adding supplier.");
+                JOptionPane.showMessageDialog(dialog, "Error adding Supplier.");
             }
         });
 
@@ -191,7 +191,7 @@ public class Suppliers extends JFrame {
         int selectedRow = table.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a supplier first.");
+            JOptionPane.showMessageDialog(this, "Please select a Supplier first.");
             return;
         }
 
@@ -284,7 +284,7 @@ public class Suppliers extends JFrame {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialog, "Error updating supplier.");
+                JOptionPane.showMessageDialog(dialog, "Error updating Supplier.");
             }
         });
 
@@ -349,7 +349,7 @@ public class Suppliers extends JFrame {
         // Confirmation dialog
         int confirm = JOptionPane.showConfirmDialog(
                 this,
-                "Are you sure you want to delete this supplier?",
+                "Are you sure you want to delete this Supplier?",
                 "Confirm Delete",
                 JOptionPane.YES_NO_OPTION
         );
@@ -372,7 +372,7 @@ public class Suppliers extends JFrame {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error deleting supplier.");
+                JOptionPane.showMessageDialog(this, "Error deleting Supplier.");
             }
         }
     }
