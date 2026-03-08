@@ -2,9 +2,14 @@ package app.inventory_management.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import app.inventory_management.controllers.LoginController;
+import app.inventory_management.models.User;
 
-public class LoginScreen  extends JFrame{
+
+
+public class LoginScreen implements ActionListener{
 
     //frame title(appears on top left)
     JFrame frame = new JFrame("LOGIN");
@@ -80,6 +85,63 @@ public class LoginScreen  extends JFrame{
         frame.add(resetButton);
 
 
+        loginButton.addActionListener(this);
+
+        showPassword.addActionListener(this);
+
+        forgotPasswordButton.addActionListener(this);
+
+        resetButton.addActionListener(this);
+
     }
+    //input into a user object
+    String name = userTextField.getText();
+    String password_hash = passwordField.getText();
+
+    LoginController controller = new LoginController();
+    User user = controller.loginUser(name, password_hash);
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+
+        if (e.getSource() == loginButton) {
+            if(user != null){
+                JOptionPane.showMessageDialog(null, "Login Successful");
+                frame.dispose();
+                new DashboardScreen(user);
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid credentials");
+            }
+        }
+
+        //show password--need to review and explain code well
+        if (e.getSource() == showPassword) {
+            if (showPassword.isSelected()) {
+                passwordField.setEchoChar((char) 0);
+            } else {
+                passwordField.setEchoChar('*');
+            }
+        }
+
+        //reset-->clearing all fields
+        if (e.getSource() == resetButton) {
+            userTextField.setText("");
+            passwordField.setText("");
+            showPassword.setSelected(false);
+            passwordField.setEchoChar('*'); // restore masking
+            userTextField.requestFocus();   // cursor back to username
+        }
+
+        //code for forget password --> still thibking on what kind of method to implement
+
+        if (e.getSource() == forgotPasswordButton){
+            JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!");
+
+        }
+    }
+
+
+
 
 }

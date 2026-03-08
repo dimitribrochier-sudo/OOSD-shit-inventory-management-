@@ -3,23 +3,26 @@ package app.inventory_management.views;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import app.inventory_management.repository.SupplierDAO;
+import app.inventory_management.controllers.SupplierController;
 import app.inventory_management.models.Supplier;
-import app.inventory_management.services.SupplierService;
-import app.inventory_management.views.DashboardScreen;
-
+import app.inventory_management.models.User;
 
 
 public class SupplierScreen extends JFrame {
-    //creating a SupplierServiceObject
+    //same user
+    private User user;
 
-    SupplierService service = new SupplierService();
+    //creating a SupplierServiceObject
+    SupplierController controller = new SupplierController();
 
     JTable table;
     DefaultTableModel model;
     JTextField idField;
 
-    public SupplierScreen(){
+    public SupplierScreen(User user){
+        //user
+        this.user = user;
+
         setTitle("Suppliers");
         setSize(700, 400);
         setLocationRelativeTo(null);
@@ -36,7 +39,7 @@ public class SupplierScreen extends JFrame {
         model.addColumn("Created At");
 
         //Populating with data
-        service.loadSupplier();
+        controller.loadSupplier();
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
@@ -56,14 +59,14 @@ public class SupplierScreen extends JFrame {
         //clean the input to a single string then boom
         String input = idField.getText().trim();
         //convert to int.
-        findButton.addActionListener(e -> service.findSupplier(Integer.parseInt(input)));
+        findButton.addActionListener(e -> controller.findSupplier(Integer.parseInt(input)));
         leftPanel.add(findButton);
 
         //show all-->a way to revert back after searching as the screen stays on the search result
         JButton showAllButton = new JButton("Show All");
         showAllButton.addActionListener(e -> {
             model.setRowCount(0);
-            service.loadSupplier();
+            controller.loadSupplier();
         });
         leftPanel.add(showAllButton);
 
@@ -71,7 +74,7 @@ public class SupplierScreen extends JFrame {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             dispose();
-            new DashboardScreen();
+            new DashboardScreen(user);
         });
 
         //creating the right container
@@ -79,11 +82,11 @@ public class SupplierScreen extends JFrame {
 
         //delete button
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> service.deleteSupplier(selectedRow()));
+        deleteButton.addActionListener(e -> controller.deleteSupplier(selectedRow()));
 
         //Add/Create Button
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(e ->  service.addSupplier()); //neeed an object teehee!
+        addButton.addActionListener(e ->  addSupplierWidget()); //neeed an object teehee!
 
         //edit/update button
         //JButton editButton = new JButton("Edit");
@@ -104,6 +107,73 @@ public class SupplierScreen extends JFrame {
 
         setVisible(true);
     }
+
+    private void addSupplierWidget(){
+        // Create dialog
+        JDialog dialog = new JDialog(this, "Add Supplier", true);
+        dialog.setSize(400, 350);
+        dialog.setLocationRelativeTo(this);
+        dialog.setLayout(new BorderLayout());
+        dialog.setVisible(true);
+
+        // Title
+        JLabel titleLabel = new JLabel("ADD SUPPLIER", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
+        dialog.add(titleLabel, BorderLayout.NORTH);
+
+        // Form panel
+        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+
+        JTextField nameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField emailField = new JTextField();
+        JTextField addressField = new JTextField();
+
+        JButton addButton = new JButton("Add");
+        JButton cancelButton = new JButton("Cancel");
+
+        formPanel.add(new JLabel("Supplier Name:"));
+        formPanel.add(nameField);
+
+        formPanel.add(new JLabel("Phone:"));
+        formPanel.add(phoneField);
+
+        formPanel.add(new JLabel("Email:"));
+        formPanel.add(emailField);
+
+        formPanel.add(new JLabel("Address:"));
+        formPanel.add(addressField);
+
+        formPanel.add(addButton);
+        formPanel.add(cancelButton);
+
+        dialog.add(formPanel, BorderLayout.CENTER);
+
+        // Cancel button
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        addButton.addActionListener(e -> {
+            String name = nameField.getText().trim();
+            String phone = phoneField.getText().trim();
+            String email = emailField.getText().trim();
+            String address = addressField.getText().trim();
+
+            if (name.isEmpty() || phone.isEmpty() ||
+                    email.isEmpty() || address.isEmpty()) {
+
+                JOptionPane.showMessageDialog(dialog, "All fields are required!");
+                return;
+            }
+
+            Supplier supplier = new Supplier(name,phone,email,address);
+            controller.addSupplier(supplier);
+
+        });
+
+    }
+
     //having a selecting function
     public int selectedRow (){
         return table.getSelectedRow();

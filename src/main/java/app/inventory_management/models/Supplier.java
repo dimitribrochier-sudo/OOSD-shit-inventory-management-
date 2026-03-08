@@ -12,8 +12,7 @@ public class Supplier {
     Timestamp timeStamp;
 
     //this one is used to add it to the database
-    public Supplier(int supplier_id, String name, String contactNumber, String email, String address) {
-        this.supplier_id = supplier_id;
+    public Supplier(String name, String contactNumber, String email, String address) {
         this.name = name;
         this.contactNumber = contactNumber;
         this.email = email;
