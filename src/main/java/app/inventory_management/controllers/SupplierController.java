@@ -3,9 +3,6 @@ package app.inventory_management.controllers;
 import app.inventory_management.models.Supplier;
 import app.inventory_management.repository.SupplierDAO;
 
-import app.inventory_management.repository.SupplierDAO;
-import app.inventory_management.models.Supplier;
-
 
 public class SupplierController {
     SupplierDAO supplierDAO = new SupplierDAO();

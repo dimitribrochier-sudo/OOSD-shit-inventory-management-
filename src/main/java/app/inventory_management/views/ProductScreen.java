@@ -1,13 +1,13 @@
 package app.inventory_management.views;
 
-import org.example.Products;
+import app.inventory_management.repository.ProductDAO;
+import app.inventory_management.models.Product;
+import app.inventory_management.controllers.ProductController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 
 
 
@@ -33,7 +33,7 @@ public class ProductScreen extends JFrame {
         model.addColumn("Reorder Level");
         model.addColumn("Supplier ID");
 
-        loadProducts();
+
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
