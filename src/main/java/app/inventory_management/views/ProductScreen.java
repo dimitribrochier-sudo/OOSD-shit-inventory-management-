@@ -122,9 +122,6 @@ public class ProductScreen extends JFrame {
             return;
         }
 
-        //get user_id from column 0
-        int userId = (int) model.getValueAt(selectedRow, 0);
-
         // Confirmation dialog
         int confirm = JOptionPane.showConfirmDialog(
                 this,
@@ -134,7 +131,10 @@ public class ProductScreen extends JFrame {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
+            controller.deleteProduct(selectedRow);
+            model.removeRow(selectedRow);
 
+            JOptionPane.showMessageDialog(this, "Product deleted");
         }
 
     }
