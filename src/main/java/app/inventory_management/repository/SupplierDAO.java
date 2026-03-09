@@ -47,17 +47,14 @@ public class SupplierDAO {
 
     public void deleteSupplier(int id) throws SQLException {
 
-        try {
+
             String sql = "DELETE FROM suppliers WHERE supplier_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
 
             ps.executeUpdate();
-        } catch(Exception e){
-            e.printStackTrace();
         }
 
-    }
 
     public Supplier loadSuppliers() throws SQLException{
         String sql = "SELECT * FROM Suppliers";

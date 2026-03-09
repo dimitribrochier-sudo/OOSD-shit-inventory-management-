@@ -2,14 +2,15 @@ package app.inventory_management.views;
 
 import javax.swing.*;
 import java.awt.*;
+import app.inventory_management.models.User;
 
 
 public class DashboardScreen extends JFrame {
 
+    private User user;
 
-    public DashboardScreen(){
-        String username = "Greg";
-        int roleId = 2;
+    public DashboardScreen(User user){
+        this.user = user;
 
         //Title
         setTitle("Dashboard");
@@ -20,7 +21,7 @@ public class DashboardScreen extends JFrame {
         setVisible(true);
 
         //swing constant control alignment inside component
-        JLabel titleLabel = new JLabel("WELCOME " + username, SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("WELCOME " + user.getUsername(), SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 22));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         add(titleLabel, BorderLayout.NORTH);

@@ -1,11 +1,10 @@
-package app.inventory_management.services;
+package app.inventory_management.controllers;
 
-import app.inventory_management.repository.SupplierDAO;
 import app.inventory_management.models.Supplier;
+import app.inventory_management.repository.SupplierDAO;
 
 
-public class SupplierService {
-
+public class SupplierController {
     SupplierDAO supplierDAO = new SupplierDAO();
 
     public Supplier findSupplier(int id) {
@@ -42,5 +41,4 @@ public class SupplierService {
             e.printStackTrace();
         }
     }
-
 }
