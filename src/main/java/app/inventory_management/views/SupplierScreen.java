@@ -12,7 +12,7 @@ public class SupplierScreen extends JFrame {
     //same user
     private User user;
 
-    //creating a SupplierServiceObject
+    //creating a SupplierControllerObject
     SupplierController controller = new SupplierController();
 
     JTable table;
