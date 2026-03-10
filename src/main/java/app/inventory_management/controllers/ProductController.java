@@ -4,6 +4,7 @@ import app.inventory_management.models.Product;
 import app.inventory_management.repository.ProductDAO;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProductController {
     ProductDAO productDAO = new ProductDAO();
@@ -18,14 +19,13 @@ public class ProductController {
         return null;
     }
 
-    public Product loadProduct(){
+    public List<Product> loadProduct(){
 
         try{
             return productDAO.loadProducts();
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public void deleteProduct(int id) {

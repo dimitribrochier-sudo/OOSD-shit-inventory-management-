@@ -6,7 +6,7 @@ import app.inventory_management.controllers.CustomerController;
 import app.inventory_management.models.User;
 import app.inventory_management.views.DashboardScreen;
 import app.inventory_management.models.Customer;
-
+import java.util.List;
 import java.awt.*;
 
 
@@ -40,8 +40,8 @@ public class CustomerScreen extends JFrame {
         model.addColumn("Address");
         model.addColumn("Created At");
 
-        //populating data
-        controller.loadCustomer();
+
+        loadCustomers();
 
         //added the table inside a scrollable panel(vertical)
         JScrollPane scrollPane = new JScrollPane(table);
@@ -66,7 +66,7 @@ public class CustomerScreen extends JFrame {
         JButton showAllButton = new JButton("Show All");
         showAllButton.addActionListener(e -> {
             model.setRowCount(0);
-            controller.loadCustomer();
+            loadCustomers();
         });
 
         leftPanel.add(showAllButton);
@@ -186,7 +186,7 @@ public class CustomerScreen extends JFrame {
 
             //refresh table
             model.setRowCount(0);
-            controller.loadCustomer();
+            loadCustomers();
         });
     }
 
@@ -253,7 +253,7 @@ public class CustomerScreen extends JFrame {
 
             // Refresh table
             model.setRowCount(0);
-            controller.loadCustomer();
+            loadCustomers();
         });
     }
 
@@ -291,8 +291,42 @@ public class CustomerScreen extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select a row first.");
             return;
         }
-        //continue work going to play valo
+        // Get user_id from column 0
+        int userId = (int) model.getValueAt(selectedRow, 0);
 
+        // Confirmation dialog
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete this customer?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            controller.deleteCustomer(selectedRow);
+            model.removeRow(selectedRow);
+
+            JOptionPane.showMessageDialog(this, "Customer deleted");
+        }
     }
+
+    //loadtable
+    private void loadCustomers(){
+        //populating data
+        List<Customer> customerList = controller.loadCustomer();
+        for (Customer c : customerList) {
+            model.addRow(new Object[]{
+                    c.getCustomer_id(),
+                    c.getName(),
+                    c.getContactNumber(),
+                    c.getAddress(),
+                    c.getTimestamp()
+            });
+        }
+    }
+    public static void main(String[] args){
+        new CustomerScreen();
+    }
+
 
 }

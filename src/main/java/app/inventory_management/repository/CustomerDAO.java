@@ -2,15 +2,13 @@ package app.inventory_management.repository;
 
 import app.inventory_management.config.DBConnection;
 import app.inventory_management.models.Customer;
-import app.inventory_management.models.Product;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.CheckedOutputStream;
+
 
 public class CustomerDAO {
     Connection connection = DBConnection.getConnection();

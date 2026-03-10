@@ -1,5 +1,5 @@
 package app.inventory_management.views;
-
+import java.util.List;
 import app.inventory_management.models.Product;
 import app.inventory_management.controllers.ProductController;
 import app.inventory_management.models.User;
@@ -106,6 +106,21 @@ public class ProductScreen extends JFrame {
 
 
     // the functions
+    private void loadProducts(){
+        //populating data
+        List<Product> productList = controller.loadProduct();
+        for (Product p : productList) {
+            model.addRow(new Object[]{
+                    p.getProductId(),
+                    p.getName(),
+                    p.getCategory(),
+                    p.getUnitPrice(),
+                    p.getReorderLevel(),
+                    p.getSupplier_id()
+            });
+        }
+    }
+
     private void findProductById(){
         String input = idField.getText().trim();
 

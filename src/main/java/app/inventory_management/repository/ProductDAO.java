@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDAO {
     Connection connection = DBConnection.getConnection();
@@ -70,7 +72,10 @@ public class ProductDAO {
         ps.executeUpdate();
     }
 
-    public Product loadProducts() throws SQLException {
+    public List<Product> loadProducts() throws SQLException {
+
+        List<Product> productList = new ArrayList<>();
+
         String sql = "SELECT * FROM Products";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -80,7 +85,7 @@ public class ProductDAO {
             Product.Category category =
                     Product.Category.valueOf(rs.getString("category").toUpperCase());
 
-            return new Product(
+            Product product = new Product(
                     rs.getInt("product_id"),
                     rs.getString("name"),
                     category,
@@ -89,8 +94,10 @@ public class ProductDAO {
                     rs.getInt("reorder_level"),
                     rs.getInt("supplier_id")
             );
+
+            productList.add(product);
         }
-        return null;
+        return productList;
     }
 
     public void addProduct(Product product) throws SQLException{
