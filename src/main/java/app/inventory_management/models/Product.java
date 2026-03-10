@@ -16,12 +16,13 @@ public class Product {
     }
 
     //this one is used to add it to the database
-    public Product(String name, Category category, double unitPrice, int currentStock, int reorderLevel){
+    public Product(String name, Category category, double unitPrice, int currentStock, int reorderLevel, int supplier_id){
         this.name = name;
         this.category = category;
         this.unitPrice = unitPrice;
         this.currentStock = currentStock;
         this.reorderLevel = reorderLevel;
+        this.supplier_id = supplier_id;
     }
     //this one is used to get it from database
     public Product(int product_id, String name, Category category, double unitPrice, int currentStock, int reorderLevel, int supplier_id){

@@ -36,7 +36,7 @@ public class Sales extends JFrame {
         add(new JLabel("Quantity:"));
         add(quantityField);
 
-        add(new JLabel("Customer ID:"));
+        add(new JLabel("CustomerScreen ID:"));
         add(customerIdField);
 
         add(new JLabel("Total Price:"));

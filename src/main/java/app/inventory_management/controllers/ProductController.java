@@ -22,7 +22,7 @@ public class ProductController {
 
         try{
             return productDAO.loadProducts();
-        }catch (Exception e){
+        }catch (SQLException e){
             e.printStackTrace();
         }
         return null;
@@ -39,6 +39,14 @@ public class ProductController {
     public void addProduct(Product product){
         try{
             productDAO.addProduct(product);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void editProduct(Product product){
+        try{
+            productDAO.editProduct(product);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

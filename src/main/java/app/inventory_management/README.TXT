@@ -12,7 +12,7 @@ repository handles the database level of things, like prepared statements and st
 
 resources and resources.images hold whatever pic,sound,links we want to hold for frontend
 
-services handles the business logics, like add product.
+services handles the business logics, like add product LIKE AND INDIVIDUAL AMOUNT.
 
 utils can hold usermade exceptions
 
@@ -20,3 +20,8 @@ views will hold only UI elements and as such is pretty bwig.
 
 So the app will be like, launch the views, views hold buttons who are connected to controllers who then will either run a service , which can either be a repo handle
 or a user exception. the models are the actors and yeah thaaz about the structure
+
+
+TODOLIST = Review code to understand it,
+            fix some buttons,
+            make appropriate error message.

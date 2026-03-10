@@ -1,26 +1,33 @@
-package org.example;
-
-import app.inventory_management.config.DBConnection;
+package app.inventory_management.views;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import app.inventory_management.controllers.CustomerController;
+import app.inventory_management.models.User;
+import app.inventory_management.views.DashboardScreen;
+import app.inventory_management.models.Customer;
 
-public class Customer extends JFrame {
+import java.awt.*;
+
+
+public class CustomerScreen extends JFrame {
+    //same user
+    private User user;
+
+    //creating a productController
+    CustomerController controller = new CustomerController();
 
     JTable table;
     DefaultTableModel model;
     JTextField idField;
 
     //SETTING FRAME
-    public Customer() {
+    public CustomerScreen() {
         setTitle("CustomerScreen");
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
         //SETTING THE TABLE
         model = new DefaultTableModel();
@@ -33,7 +40,8 @@ public class Customer extends JFrame {
         model.addColumn("Address");
         model.addColumn("Created At");
 
-        loadCustomers();
+        //populating data
+        controller.loadCustomer();
 
         //added the table inside a scrollable panel(vertical)
         JScrollPane scrollPane = new JScrollPane(table);
@@ -58,8 +66,9 @@ public class Customer extends JFrame {
         JButton showAllButton = new JButton("Show All");
         showAllButton.addActionListener(e -> {
             model.setRowCount(0);
-            loadCustomers();
+            controller.loadCustomer();
         });
+
         leftPanel.add(showAllButton);
 
         //back button--> go back to dashboard(need to fix position)
@@ -67,7 +76,7 @@ public class Customer extends JFrame {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             dispose();
-            new Dashboard();
+            new DashboardScreen(user);
         });
 
         //creating the right container
@@ -79,11 +88,11 @@ public class Customer extends JFrame {
 
         //Add/Create Button
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(e -> AddCustomer());
+        addButton.addActionListener(e -> addCustomer());
 
         //edit/update button
         JButton editButton = new JButton("Edit");
-        editButton.addActionListener(e -> EditCustomer());
+        editButton.addActionListener(e -> editCustomer());
 
         rightPanel.add(addButton);
         rightPanel.add(editButton);
@@ -96,24 +105,20 @@ public class Customer extends JFrame {
         //adding the top container and backbutton in the frame
         add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
-        setVisible(true);
-
-
 
     }
 
-    // Edit Consumer
-    private void EditCustomer() {
-
+    //functions
+    private void editCustomer(){
         int selectedRow = table.getSelectedRow();
 
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a customer first.");
+        if (selectedRow == -1){
+            JOptionPane.showMessageDialog(this, "Please select customer first.");
             return;
         }
 
         // Get selected row data
-        int consumerId = (int) model.getValueAt(selectedRow, 0);
+        int customerId = (int) model.getValueAt(selectedRow, 0);
         String name = model.getValueAt(selectedRow, 1).toString();
         String contact = model.getValueAt(selectedRow, 2).toString();
         String address = model.getValueAt(selectedRow, 3).toString();
@@ -158,9 +163,8 @@ public class Customer extends JFrame {
         // Cancel
         cancelButton.addActionListener(e -> dialog.dispose());
 
-        // Update
+        //update
         updateButton.addActionListener(e -> {
-
             String newName = nameField.getText().trim();
             String newContact = contactField.getText().trim();
             String newAddress = addressField.getText().trim();
@@ -170,43 +174,29 @@ public class Customer extends JFrame {
                 return;
             }
 
-            try {
-                Connection connection = DBConnection.getConnection();
+            Customer editedCustomer = new Customer(
+                    customerId,
+                    newName,
+                    Integer.parseInt(newContact),
+                    newAddress);
 
-                String sql = "UPDATE customers SET name = ?, contact_number = ?, address = ? WHERE customer_id = ?";
-                PreparedStatement ps = connection.prepareStatement(sql);
+            controller.addCustomer(editedCustomer);
+            JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
+            dialog.dispose();
 
-                ps.setString(1, newName);
-                ps.setString(2, newContact);
-                ps.setString(3, newAddress);
-                ps.setInt(4, consumerId);
-
-                ps.executeUpdate();
-
-                JOptionPane.showMessageDialog(dialog, "CustomerScreen updated successfully!");
-
-                dialog.dispose();
-
-                // Refresh table
-                model.setRowCount(0);
-                loadCustomers();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialog, "Error updating customer.");
-            }
+            //refresh table
+            model.setRowCount(0);
+            controller.loadCustomer();
         });
-
-        dialog.setVisible(true);
     }
-    // Create a customer
-    private void AddCustomer() {
 
+    private void addCustomer(){
         // Create dialog
         JDialog dialog = new JDialog(this, "Add CustomerScreen", true);
         dialog.setSize(400, 320);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
+        dialog.setVisible(true);
 
         // Title
         JLabel titleLabel = new JLabel("ADD CUSTOMER", SwingConstants.CENTER);
@@ -254,153 +244,55 @@ public class Customer extends JFrame {
                 return;
             }
 
-            try {
-                Connection connection = DBConnection.getConnection();
+            Customer newCustomer = new Customer(name, Integer.parseInt(contact), address);
 
-                String sql = "INSERT INTO customers (name, contact_number, address) VALUES (?, ?, ?)";
-                PreparedStatement ps = connection.prepareStatement(sql);
+            controller.addCustomer(newCustomer);
 
-                ps.setString(1, name);
-                ps.setString(2, contact);
-                ps.setString(3, address);
+            JOptionPane.showMessageDialog(dialog, "CustomerScreen added successfully!");
+            dialog.dispose();
 
-                ps.executeUpdate();
-
-                JOptionPane.showMessageDialog(dialog, "CustomerScreen added successfully!");
-
-                dialog.dispose();
-
-                // Refresh table
-                model.setRowCount(0);
-                loadCustomers();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialog, "Error adding customer.");
-            }
+            // Refresh table
+            model.setRowCount(0);
+            controller.loadCustomer();
         });
-
-        dialog.setVisible(true);
     }
 
-    //find a customer by its ID
-    private void findCustomerById() {
+    private void findCustomerById(){
         String input = idField.getText().trim();
 
-        if (input.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Enter a CustomerScreen ID");
+        if (input.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter a customer ID");
             return;
         }
 
-        try {
-            //when passing data from frame, the data is ALWAYS in String, so have to do a string conversion, from string to int
-            int id = Integer.parseInt(input);
+        Customer foundCustomer = controller.findCustomer(Integer.parseInt(input));
 
-            Connection connection = DBConnection.getConnection();
+        model.setRowCount(0);
 
-            String sql = "SELECT * FROM customers WHERE customer_id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-            // clear table first
-            model.setRowCount(0);
-
-            if (rs.next()) {
-                model.addRow(new Object[]{
-                        rs.getInt("customer_id"),
-                        rs.getString("name"),
-                        rs.getString("contact_number"),
-                        rs.getString("address"),
-                        rs.getTimestamp("created_at")
-                });
-            } else {
-                JOptionPane.showMessageDialog(this, "CustomerScreen not found");
-            }
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "ID must be a number");
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (foundCustomer != null){
+            model.addRow(new Object[]{
+                    foundCustomer.getCustomer_id(),
+                    foundCustomer.getName(),
+                    foundCustomer.getContactNumber(),
+                    foundCustomer.getAddress(),
+                    foundCustomer.getTimestamp()
+            });
+        }else {
+            JOptionPane.showMessageDialog(this, "Product not found");
         }
     }
 
-    //Delete a user
-    private void deleteCustomer() {
+    private void deleteCustomer(){
 
         int selectedRow = table.getSelectedRow();
 
-        // Check if a row is selected
+        //Check if a row is selected
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a row first.");
             return;
         }
-
-        // Get user_id from column 0
-        int userId = (int) model.getValueAt(selectedRow, 0);
-
-        // Confirmation dialog
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Are you sure you want to delete this customer?",
-                "Confirm Delete",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm == JOptionPane.YES_OPTION) {
-
-            try {
-                Connection connection = DBConnection.getConnection();
-
-                String sql = "DELETE FROM customers WHERE customer_id = ?";
-                PreparedStatement ps = connection.prepareStatement(sql);
-                ps.setInt(1, userId);
-
-                ps.executeUpdate();
-
-                JOptionPane.showMessageDialog(this, "CustomerScreen deleted successfully!");
-
-                // Remove row from table
-                model.removeRow(selectedRow);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error deleting customer.");
-            }
-        }
-    }
-
-    //load the table
-    private void loadCustomers() {
-        try {
-            Connection connection = DBConnection.getConnection();
-
-
-            String sql = "SELECT * FROM customers";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                        rs.getInt("customer_id"),
-                        rs.getString("name"),
-                        rs.getString("contact_number"),
-                        rs.getString("address"),
-                        rs.getTimestamp("created_at")
-                });
-            }
-
-            //connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        //continue work going to play valo
 
     }
-    public static void main(String[] args) {
-        new Customer();
-    }
 
-    }
+}
