@@ -3,6 +3,8 @@ package app.inventory_management.controllers;
 import app.inventory_management.models.User;
 import app.inventory_management.repository.LoginDAO;
 
+import java.sql.SQLException;
+
 public class LoginController {
     LoginDAO loginDAO = new LoginDAO();
 
@@ -10,7 +12,8 @@ public class LoginController {
 
         try {
             return loginDAO.login(username, password);
-        }catch (Exception e){
+
+        }catch (SQLException e){
             e.printStackTrace();
         }
         return null;

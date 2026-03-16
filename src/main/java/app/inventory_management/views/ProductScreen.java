@@ -73,7 +73,7 @@ public class ProductScreen extends JFrame {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             dispose();
-            new DashboardScreen(user);
+            new DashboardScreen();
         });
 
         //creating the right container

@@ -9,8 +9,7 @@ public class LoginDAO {
 
     public User login(String username, String password_hash) throws SQLException{
 
-        try {
-            String sql = "SELECT role_id FROM users WHERE username=? AND password_hash=?";
+            String sql = "SELECT * FROM users WHERE username=? AND password_hash=?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             ps.setString(1, username);
@@ -19,17 +18,15 @@ public class LoginDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int roleId = rs.getInt("role_id");
 
-                return new User(username, roleId);
-
+                return new User(
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("password_hash"),
+                        rs.getString("full_name"),
+                        rs.getInt("role_id"),
+                        rs.getTimestamp("created_at"));
             }
             return  null;
-
-        }catch (SQLException e){
-            throw new SQLException(e);
         }
-
-
-    }
 }

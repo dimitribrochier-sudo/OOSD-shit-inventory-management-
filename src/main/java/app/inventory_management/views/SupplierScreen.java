@@ -19,9 +19,8 @@ public class SupplierScreen extends JFrame {
     DefaultTableModel model;
     JTextField idField;
 
-    public SupplierScreen(User user){
-        //user
-        this.user = user;
+    public SupplierScreen(){
+
 
         setTitle("Suppliers");
         setSize(700, 400);
@@ -74,7 +73,7 @@ public class SupplierScreen extends JFrame {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             dispose();
-            new DashboardScreen(user);
+            new DashboardScreen();
         });
 
         //creating the right container

@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import app.inventory_management.controllers.LoginController;
 import app.inventory_management.models.User;
-
+import app.inventory_management.utils.SessionManager;
 
 
 public class LoginScreen implements ActionListener{
@@ -94,22 +94,23 @@ public class LoginScreen implements ActionListener{
         resetButton.addActionListener(this);
 
     }
-    //input into a user object
-    String name = userTextField.getText();
-    String password_hash = passwordField.getText();
-
-    LoginController controller = new LoginController();
-    User user = controller.loginUser(name, password_hash);
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //input into a user object
+        String name = userTextField.getText();
+        String password_hash = passwordField.getText();
 
+        LoginController controller = new LoginController();
+        User user = controller.loginUser(name, password_hash);
 
         if (e.getSource() == loginButton) {
             if(user != null){
                 JOptionPane.showMessageDialog(null, "Login Successful");
                 frame.dispose();
-                new DashboardScreen(user);
+                //store the user
+                SessionManager.getInstance().login(user);
+                new DashboardScreen();
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid credentials");
             }
