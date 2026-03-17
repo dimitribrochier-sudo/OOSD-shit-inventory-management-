@@ -1,6 +1,9 @@
 package app.inventory_management.repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import app.inventory_management.config.DBConnection;
 import app.inventory_management.models.Supplier;
 
@@ -56,13 +59,16 @@ public class SupplierDAO {
         }
 
 
-    public Supplier loadSuppliers() throws SQLException{
+    public List<Supplier> loadSuppliers() throws SQLException{
+
+        List<Supplier> supplierList = new ArrayList<>();
+
         String sql = "SELECT * FROM Suppliers";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
         while(rs.next()) {
-            return new Supplier(
+            Supplier supplier = new Supplier(
                     rs.getInt("supplier_id"),
                     rs.getString("name"),
                     rs.getString("contact_number"),
@@ -70,13 +76,32 @@ public class SupplierDAO {
                     rs.getString("address"),
                     rs.getTimestamp("created_at")
             );
+
+            supplierList.add(supplier);
         }
-        return null;
+
+        return supplierList;
     }
 
-    //work in progress
-    public void editSupplier(int id) {
 
+    public Supplier editSupplier(Supplier supplier) throws SQLException {
+        String sql = "UPDATE suppliers SET name=?,contact_number =?, email=?, address=? WHERE supplier_id=?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+
+        ps.setString(1, supplier.getName());
+        ps.setString(2, supplier.getContactNumber());
+        ps.setString(3, supplier.getEmail());
+        ps.setString(4, supplier.getAddress());
+        ps.setInt(5, supplier.getSupplier_id());
+
+        ps.executeUpdate();
+        //using the row affected response from database as confirmation
+        int rows = ps.executeUpdate();
+        if(rows > 0){
+            return supplier;
+        }else {
+            return null;
+        }
     }
 
 }

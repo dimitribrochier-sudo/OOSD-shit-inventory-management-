@@ -10,7 +10,7 @@ public class User {
     private int roleId;
     private Timestamp createdAt;
 
-
+//for getting user data from the database
     public User(int userID, String username, String password, String fullName, int roleId, Timestamp createdAt) {
         this.userID= userID;
         this.username = username;
@@ -19,6 +19,23 @@ public class User {
         this.roleId = roleId;
         this.createdAt=createdAt;
     }
+
+//for putting user in the database
+    public User(String username, String password, String fullName, int roleId){
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.roleId = roleId;
+    }
+
+//for editing in database
+public User(int userID, String username, String password, String fullName, int roleId){
+    this.userID = userID;
+    this.username = username;
+    this.password = password;
+    this.fullName = fullName;
+    this.roleId = roleId;
+}
 
     public int getUserID() {
         return userID;

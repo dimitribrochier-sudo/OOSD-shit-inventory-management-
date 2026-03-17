@@ -11,8 +11,6 @@ import java.awt.*;
 
 
 public class CustomerScreen extends JFrame {
-    //same user
-    private User user;
 
     //creating a productController
     CustomerController controller = new CustomerController();
@@ -180,7 +178,7 @@ public class CustomerScreen extends JFrame {
                     Integer.parseInt(newContact),
                     newAddress);
 
-            controller.addCustomer(editedCustomer);
+            controller.editCustomer(editedCustomer);
             JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
             dialog.dispose();
 

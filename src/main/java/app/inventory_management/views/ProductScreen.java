@@ -37,7 +37,7 @@ public class ProductScreen extends JFrame {
         model.addColumn("Supplier ID");
 
         //populating data
-        controller.loadProduct();
+       loadProducts();
 
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -65,7 +65,7 @@ public class ProductScreen extends JFrame {
         JButton showAllButton = new JButton("Show All");
         showAllButton.addActionListener(e -> {
             model.setRowCount(0);
-            controller.loadProduct();
+            loadProducts();
         });
         leftPanel.add(showAllButton);
 
@@ -266,7 +266,7 @@ public class ProductScreen extends JFrame {
             JOptionPane.showMessageDialog(dialog, "Product added successfully!");
             dialog.dispose();
             model.setRowCount(0);
-            controller.loadProduct();
+            loadProducts();
 
         });
     }
@@ -383,7 +383,7 @@ public class ProductScreen extends JFrame {
 
             // Refresh table
             model.setRowCount(0);
-            controller.loadProduct();
+            loadProducts();
 
         });
     }

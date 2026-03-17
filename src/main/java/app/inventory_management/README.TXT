@@ -24,7 +24,7 @@ or a user exception. the models are the actors and yeah thaaz about the structur
 
 TODOLIST = Review code to understand it,
             fix some buttons,
-            make appropriate error message.
+            flow wack
 
 NEW ROLES(
     Manager(overseers employers and suppliers, report)

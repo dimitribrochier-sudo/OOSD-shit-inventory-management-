@@ -93,7 +93,6 @@ public class CustomerDAO {
         ps.setString(3, customer.getAddress());
 
         ps.executeUpdate();
-
     }
 
 

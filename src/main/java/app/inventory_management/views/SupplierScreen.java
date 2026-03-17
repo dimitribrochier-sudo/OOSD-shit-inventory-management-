@@ -6,6 +6,7 @@ import java.awt.*;
 import app.inventory_management.controllers.SupplierController;
 import app.inventory_management.models.Supplier;
 import app.inventory_management.models.User;
+import java.util.List;
 
 
 public class SupplierScreen extends JFrame {
@@ -38,7 +39,7 @@ public class SupplierScreen extends JFrame {
         model.addColumn("Created At");
 
         //Populating with data
-        controller.loadSupplier();
+        loadSuppliers();
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
@@ -65,7 +66,7 @@ public class SupplierScreen extends JFrame {
         JButton showAllButton = new JButton("Show All");
         showAllButton.addActionListener(e -> {
             model.setRowCount(0);
-            controller.loadSupplier();
+            loadSuppliers();
         });
         leftPanel.add(showAllButton);
 
@@ -85,12 +86,11 @@ public class SupplierScreen extends JFrame {
 
         //Add/Create Button
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(e ->  addSupplierWidget()); //neeed an object teehee!
+        addButton.addActionListener(e ->  addSupplier()); //neeed an object teehee!
 
         //edit/update button
-        //JButton editButton = new JButton("Edit");
-        //editButton.addActionListener(e ->  EditSupplier());
-
+        JButton editButton = new JButton("Edit");
+        editButton.addActionListener(e ->  editSupplier());
 
         rightPanel.add(addButton);
         //rightPanel.add(editButton);
@@ -107,7 +107,7 @@ public class SupplierScreen extends JFrame {
         setVisible(true);
     }
 
-    private void addSupplierWidget(){
+    private void addSupplier(){
         // Create dialog
         JDialog dialog = new JDialog(this, "Add Supplier", true);
         dialog.setSize(400, 350);
@@ -168,10 +168,121 @@ public class SupplierScreen extends JFrame {
 
             Supplier supplier = new Supplier(name,phone,email,address);
             controller.addSupplier(supplier);
+            dialog.dispose();
 
+            //refresh table
+            model.setRowCount(0);
+            loadSuppliers();
         });
-
     }
+
+    private void editSupplier() {
+
+        if (selectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a Supplier first.");
+            return;
+        }
+
+        //get selected row data
+        int supplierId = (int) model.getValueAt(selectedRow(), 0);
+        String name = model.getValueAt(selectedRow(), 1).toString();
+        String phone = model.getValueAt(selectedRow(), 2).toString();
+        String email = model.getValueAt(selectedRow(), 3).toString();
+        String address = model.getValueAt(selectedRow(), 4).toString();
+
+        // Create dialog
+        JDialog dialog = new JDialog(this, "Edit Supplier", true);
+        dialog.setSize(400, 350);
+        dialog.setLocationRelativeTo(this);
+        dialog.setLayout(new BorderLayout());
+
+        // Title
+        JLabel titleLabel = new JLabel("EDIT SUPPLIER", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
+        dialog.add(titleLabel, BorderLayout.NORTH);
+
+        // Form panel
+        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+
+        JTextField nameField = new JTextField(name);
+        JTextField phoneField = new JTextField(phone);
+        JTextField emailField = new JTextField(email);
+        JTextField addressField = new JTextField(address);
+
+        JButton updateButton = new JButton("Update");
+        JButton cancelButton = new JButton("Cancel");
+
+        formPanel.add(new JLabel("Supplier Name:"));
+        formPanel.add(nameField);
+
+        formPanel.add(new JLabel("Phone:"));
+        formPanel.add(phoneField);
+
+        formPanel.add(new JLabel("Email:"));
+        formPanel.add(emailField);
+
+        formPanel.add(new JLabel("Address:"));
+        formPanel.add(addressField);
+
+        formPanel.add(updateButton);
+        formPanel.add(cancelButton);
+
+        dialog.add(formPanel, BorderLayout.CENTER);
+
+        // Cancel button
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        // Update button
+        updateButton.addActionListener(e -> {
+
+            String newName = nameField.getText().trim();
+            String newPhone = phoneField.getText().trim();
+            String newEmail = emailField.getText().trim();
+            String newAddress = addressField.getText().trim();
+
+            if (newName.isEmpty() || newPhone.isEmpty() ||
+                    newEmail.isEmpty() || newAddress.isEmpty()) {
+
+                JOptionPane.showMessageDialog(dialog, "All fields are required!");
+                return;
+            }
+
+            Supplier editedSupplier = new Supplier(
+                    supplierId,
+                    newName,
+                    newPhone,
+                    newEmail,
+                    newAddress
+            );
+
+            controller.editSupplier(editedSupplier);
+            JOptionPane.showMessageDialog(dialog, "Supplier updated successfully!");
+            dialog.dispose();
+
+            //refresh table
+            model.setRowCount(0);
+            loadSuppliers();
+        });
+    }
+
+    //loadtable
+    private void loadSuppliers(){
+        //populating data
+        List<Supplier> supplierList = controller.loadSupplier();
+        for (Supplier s : supplierList){
+            model.addRow(new Object[]{
+                    s.getSupplier_id(),
+                    s.getName(),
+                    s.getContactNumber(),
+                    s.getEmail(),
+                    s.getAddress(),
+                    s.getTimeStamp()
+            });
+        }
+    }
+
 
     //having a selecting function
     public int selectedRow (){

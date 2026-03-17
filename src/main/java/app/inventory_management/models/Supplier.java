@@ -28,6 +28,16 @@ public class Supplier {
         this.timeStamp = timeStamp;
     }
 
+    //this one is for editing
+    public Supplier(int supplier_id, String name, String contactNumber, String email, String address) {
+        this.supplier_id = supplier_id;
+        this.name = name;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.address = address;
+    }
+
+
     //getters
     public int getSupplier_id() {
         return supplier_id;

@@ -68,12 +68,33 @@ public class DashboardScreen extends JFrame {
         buttonPanel.add(logoutBtn);
 
         //action to buttons
-        userBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
-        supplierBtn.addActionListener(e -> new SupplierScreen());
-        productBtn.addActionListener(e -> new ProductScreen());
-        salesBtn.addActionListener(e -> new SalesScreen());
-        customerBtn.addActionListener(e -> new CustomerScreen());
+        userBtn.addActionListener(e -> {
+            dispose();
+            new UserScreen();
+        });
+
+        supplierBtn.addActionListener(e -> {
+            dispose();
+            new SupplierScreen();
+        });
+
+        productBtn.addActionListener(e -> {
+            dispose();
+            new ProductScreen();
+        });
+
+        salesBtn.addActionListener(e -> {
+            //dispose(); need to rework on this bit
+            new SalesScreen();
+        });
+
+        customerBtn.addActionListener(e -> {
+            dispose();
+            new CustomerScreen();
+        });
+
         inv_transBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
+
         logoutBtn.addActionListener(e -> {
             SessionManager.getInstance().logout();
             dispose();
@@ -81,11 +102,5 @@ public class DashboardScreen extends JFrame {
         });
 
         return buttonPanel;
-
-
     }
-
-
-
-
 }
