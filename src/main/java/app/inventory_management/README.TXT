@@ -25,3 +25,31 @@ or a user exception. the models are the actors and yeah thaaz about the structur
 TODOLIST = Review code to understand it,
             fix some buttons,
             make appropriate error message.
+
+NEW ROLES(
+    Manager(overseers employers and suppliers, report)
+    Admin(god)
+    employee(track products and manage orders add a report.)
+)
+
+
+Screens
+
+LoginPage 1
+Dashboard 2 (Rework)
+User(holds people) 3
+Customer 4
+Product 5
+Supplier (holds people)6
+supplier's products(Holds suppliers product)7
+Sales 8
+Order 9
+Tracking of products 10 (when products status (on arrival, received, damaged, return)
+Tracking of orders 11 (when products status (on arrival, received, damaged, return)
+Alerts 12 (show low stock of items, or missed deadlines or whatever)
+inv transactions 13
+Analytics for revenue 14
+Report screens 15 (shows information of what happens in the inventory, bridgecommunication between employer and manager)
+
+
+Receipt (Feature)
