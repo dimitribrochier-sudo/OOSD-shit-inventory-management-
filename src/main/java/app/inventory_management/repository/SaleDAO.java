@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SaleDAO {
+
     public void insertSale(Sale sale) throws SQLException {
         String sql = "INSERT INTO sales(product_id, customer_id, quantity, price, total_price) VALUES(?,?,?,?,?)";
             Connection conn = DBConnection.getConnection();

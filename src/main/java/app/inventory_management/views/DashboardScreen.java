@@ -71,7 +71,7 @@ public class DashboardScreen extends JFrame {
         userBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
         supplierBtn.addActionListener(e -> new SupplierScreen());
         productBtn.addActionListener(e -> new ProductScreen());
-        salesBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
+        salesBtn.addActionListener(e -> new SalesScreen());
         customerBtn.addActionListener(e -> new CustomerScreen());
         inv_transBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
         logoutBtn.addActionListener(e -> {
