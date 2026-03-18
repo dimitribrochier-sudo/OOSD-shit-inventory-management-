@@ -26,9 +26,9 @@ public class SupplierController {
         }
     }
 
-    public int deleteSupplier(int id) {
+    public void deleteSupplier(int id) {
         try {
-            return supplierDAO.deleteSupplier(id);
+            supplierDAO.deleteSupplier(id);
         } catch (SQLException e){
             throw new RuntimeException(e);
         }

@@ -62,21 +62,8 @@ public class SupplierScreen extends JFrame {
             try {
                 //convert to int
                 int id = Integer.parseInt(input);
-                Supplier found = controller.findSupplier(id);
-
-                model.setRowCount(0);//clear table
-                if (found != null) {
-                    model.addRow(new Object[]{
-                            found.getSupplier_id(),
-                            found.getName(),
-                            found.getContactNumber(),
-                            found.getEmail(),
-                            found.getAddress(),
-                            found.getTimeStamp()
-                    });
-                } else {
-                    JOptionPane.showMessageDialog(SupplierScreen.this, "Supplier not found!");
-                }
+                //function
+                findSupplierById(id);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(SupplierScreen.this, "Please enter a valid numeric ID");
             }
@@ -105,17 +92,7 @@ public class SupplierScreen extends JFrame {
 
         //delete button
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> {
-            //code is the number return by delete funct, if >0 it is succesfull
-            int code = controller.deleteSupplier(selectedRow());
-            if(code > 0){
-                JOptionPane.showMessageDialog(this, "Supplier deleted Successfully!");
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "Supplier was not deleted.");
-            }
-
-        });
+        deleteButton.addActionListener(e -> deleteSupplier());
 
         //Add/Create Button
         JButton addButton = new JButton("Add");
@@ -221,17 +198,19 @@ public class SupplierScreen extends JFrame {
 
     private void editSupplier() {
 
-        if (selectedRow() == -1) {
+        int selectedRow = table.getSelectedRow();
+
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a Supplier first.");
             return;
         }
 
         //get selected row data
-        int supplierId = (int) model.getValueAt(selectedRow(), 0);
-        String name = model.getValueAt(selectedRow(), 1).toString();
-        String phone = model.getValueAt(selectedRow(), 2).toString();
-        String email = model.getValueAt(selectedRow(), 3).toString();
-        String address = model.getValueAt(selectedRow(), 4).toString();
+        int supplierId = (int) model.getValueAt(selectedRow, 0);
+        String name = model.getValueAt(selectedRow, 1).toString();
+        String phone = model.getValueAt(selectedRow, 2).toString();
+        String email = model.getValueAt(selectedRow, 3).toString();
+        String address = model.getValueAt(selectedRow, 4).toString();
 
         // Create dialog
         JDialog dialog = new JDialog(this, "Edit Supplier", true);
@@ -328,9 +307,52 @@ public class SupplierScreen extends JFrame {
         }
     }
 
-    //having a selecting function
-    public int selectedRow (){
-        return table.getSelectedRow();
+    private void deleteSupplier(){
+        int selectedRow = table.getSelectedRow();
+
+        //check if selected
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row first.");
+            return;
+        }
+
+        int supplierId = (int) model.getValueAt(selectedRow,0);
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete this Supplier",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            controller.deleteSupplier(supplierId);
+            JOptionPane.showMessageDialog(this, "Supplier deleted successfully!");
+
+            // Remove row from table
+            model.removeRow(selectedRow);
+        }
     }
+
+    private void findSupplierById(int id){
+
+        Supplier found = controller.findSupplier(id);
+
+        model.setRowCount(0);//clear table
+        if (found != null) {
+            model.addRow(new Object[]{
+                    found.getSupplier_id(),
+                    found.getName(),
+                    found.getContactNumber(),
+                    found.getEmail(),
+                    found.getAddress(),
+                    found.getTimeStamp()
+            });
+        } else {
+            JOptionPane.showMessageDialog(SupplierScreen.this, "Supplier not found!");
+        }
+
+    }
+
 
 }

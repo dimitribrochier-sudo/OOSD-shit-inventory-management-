@@ -56,15 +56,14 @@ public class SupplierDAO {
         }
     }
 
-    public int deleteSupplier(int id) throws SQLException {
+    public void deleteSupplier(int id) throws SQLException {
 
         String sql = "DELETE FROM suppliers WHERE supplier_id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1, id);
 
-        //using the row affected response from database as confirmation
-        return ps.executeUpdate();
-        }
+        ps.executeUpdate();
+    }
 
 
     public List<Supplier> loadSuppliers() throws SQLException{

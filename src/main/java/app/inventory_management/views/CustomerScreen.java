@@ -3,12 +3,9 @@ package app.inventory_management.views;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import app.inventory_management.controllers.CustomerController;
-import app.inventory_management.models.User;
-import app.inventory_management.views.DashboardScreen;
 import app.inventory_management.models.Customer;
 import java.util.List;
 import java.awt.*;
-
 
 public class CustomerScreen extends JFrame {
 
@@ -25,7 +22,6 @@ public class CustomerScreen extends JFrame {
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
 
         //SETTING THE TABLE
         model = new DefaultTableModel();
@@ -104,6 +100,7 @@ public class CustomerScreen extends JFrame {
         add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
 
+        setVisible(true);
     }
 
     //functions
@@ -163,29 +160,36 @@ public class CustomerScreen extends JFrame {
 
         //update
         updateButton.addActionListener(e -> {
-            String newName = nameField.getText().trim();
-            String newContact = contactField.getText().trim();
-            String newAddress = addressField.getText().trim();
 
-            if (newName.isEmpty()) {
-                JOptionPane.showMessageDialog(dialog, "Name is required!");
-                return;
+            try{
+                String newName = nameField.getText().trim();
+                String newContact = contactField.getText().trim();
+                String newAddress = addressField.getText().trim();
+
+                if (newName.isEmpty()) {
+                    JOptionPane.showMessageDialog(dialog, "Name is required!");
+                    return;
+                }
+
+                Customer editedCustomer = new Customer(
+                        customerId,
+                        newName,
+                        Integer.parseInt(newContact),
+                        newAddress);
+
+                controller.editCustomer(editedCustomer);
+                JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
+                dialog.dispose();
+
+                //refresh table
+                model.setRowCount(0);
+                loadCustomers();
+            }catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Please enter a valid number!");
             }
-
-            Customer editedCustomer = new Customer(
-                    customerId,
-                    newName,
-                    Integer.parseInt(newContact),
-                    newAddress);
-
-            controller.editCustomer(editedCustomer);
-            JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
-            dialog.dispose();
-
-            //refresh table
-            model.setRowCount(0);
-            loadCustomers();
         });
+
+        dialog.setVisible(true);
     }
 
     private void addCustomer(){
@@ -194,7 +198,6 @@ public class CustomerScreen extends JFrame {
         dialog.setSize(400, 320);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
-        dialog.setVisible(true);
 
         // Title
         JLabel titleLabel = new JLabel("ADD CUSTOMER", SwingConstants.CENTER);
@@ -253,6 +256,8 @@ public class CustomerScreen extends JFrame {
             model.setRowCount(0);
             loadCustomers();
         });
+
+        dialog.setVisible(true);
     }
 
     private void findCustomerById(){
@@ -281,7 +286,6 @@ public class CustomerScreen extends JFrame {
     }
 
     private void deleteCustomer(){
-
         int selectedRow = table.getSelectedRow();
 
         //Check if a row is selected
@@ -301,10 +305,11 @@ public class CustomerScreen extends JFrame {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            controller.deleteCustomer(selectedRow);
-            model.removeRow(selectedRow);
-
+            controller.deleteCustomer(userId);
             JOptionPane.showMessageDialog(this, "Customer deleted");
+
+            //remove row from table
+            model.removeRow(selectedRow);
         }
     }
 

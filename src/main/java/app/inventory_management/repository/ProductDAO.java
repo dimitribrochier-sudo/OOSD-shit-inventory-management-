@@ -42,8 +42,7 @@ public class ProductDAO {
         return null;
     }
 
-    public Product editProduct (Product product) throws SQLException
-    {
+    public Product editProduct (Product product) throws SQLException {
         String sql = "UPDATE products SET name=?, category=?, unit_price=?, current_stock=?, reorder_level=?, supplier_id=? WHERE product_id=?";
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -55,6 +54,7 @@ public class ProductDAO {
         ps.setInt(6, product.getSupplier_id());
         ps.setInt(7, product.getProductId());
 
+        ps.executeUpdate();
         //using the row affected response from database as confirmation
         int rows = ps.executeUpdate();
         if(rows > 0) {

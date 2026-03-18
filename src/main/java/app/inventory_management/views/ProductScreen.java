@@ -1,8 +1,8 @@
 package app.inventory_management.views;
+
 import java.util.List;
 import app.inventory_management.models.Product;
 import app.inventory_management.controllers.ProductController;
-import app.inventory_management.models.User;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,9 +12,6 @@ public class ProductScreen extends JFrame {
     DefaultTableModel model;
     JTextField idField;
 
-    //same user
-    private User user;
-
     //creating a productController
     ProductController controller = new ProductController();
 
@@ -23,7 +20,7 @@ public class ProductScreen extends JFrame {
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+
 
         model = new DefaultTableModel();
         table = new JTable(model);
@@ -102,6 +99,8 @@ public class ProductScreen extends JFrame {
         //adding the top container and backbutton in the frame
         add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
+
+        setVisible(true);
     }
 
 
@@ -115,6 +114,7 @@ public class ProductScreen extends JFrame {
                     p.getName(),
                     p.getCategory(),
                     p.getUnitPrice(),
+                    p.getCurrentStock(),
                     p.getReorderLevel(),
                     p.getSupplier_id()
             });
@@ -131,6 +131,7 @@ public class ProductScreen extends JFrame {
 
         Product foundProduct = controller.findProduct(Integer.parseInt(input));
 
+        model.setRowCount(0);//clear table
         if (foundProduct != null){
             model.addRow(new Object[]{
                     foundProduct.getProductId(),
@@ -148,7 +149,6 @@ public class ProductScreen extends JFrame {
 
 
     private void deleteProduct(){
-
         int selectedRow = table.getSelectedRow();
 
         //Check if a row is selected
@@ -156,6 +156,8 @@ public class ProductScreen extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select a row first.");
             return;
         }
+
+        int productId = (int) model.getValueAt(selectedRow, 0);
 
         // Confirmation dialog
         int confirm = JOptionPane.showConfirmDialog(
@@ -166,12 +168,12 @@ public class ProductScreen extends JFrame {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            controller.deleteProduct(selectedRow);
-            model.removeRow(selectedRow);
-
+            controller.deleteProduct(productId);
             JOptionPane.showMessageDialog(this, "Product deleted");
-        }
 
+            // Remove row from table
+            model.removeRow(selectedRow);
+        }
     }
 
     private void addProduct(){
@@ -269,6 +271,7 @@ public class ProductScreen extends JFrame {
             loadProducts();
 
         });
+        dialog.setVisible(true);
     }
     private void editProduct() {
 
@@ -293,7 +296,7 @@ public class ProductScreen extends JFrame {
         dialog.setSize(400, 400);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
-        dialog.setVisible(true);
+
 
         // Title
         JLabel titleLabel = new JLabel("EDIT PRODUCT", SwingConstants.CENTER);
@@ -368,14 +371,21 @@ public class ProductScreen extends JFrame {
                 return;
             }
 
+            try{
+                double newUnitPrice = Double.parseDouble(unitPriceText);
+                int newCurrentStock = Integer.parseInt(currentStockText);
+                int newReorderLevel = Integer.parseInt(reorderLevelText);
+                int newSupplierId = Integer.parseInt(supplierIdText);
+
             Product editedProduct = new Product(
                     productId,
                     newName,
                     categoryEnum,
-                    unitPrice,
-                    currentStock,
-                    reorderLevel,
-                    supplierId);
+                    newUnitPrice,
+                    newCurrentStock,
+                    newReorderLevel,
+                    newSupplierId
+            );
 
             controller.editProduct(editedProduct);
             JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
@@ -385,7 +395,12 @@ public class ProductScreen extends JFrame {
             model.setRowCount(0);
             loadProducts();
 
+            }catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for price/stock fields!");
+            }
         });
+
+        dialog.setVisible(true);
     }
 
     public static void main(String[] args){new ProductScreen();}

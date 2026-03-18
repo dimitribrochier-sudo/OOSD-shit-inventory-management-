@@ -13,10 +13,9 @@ public class ProductController {
 
         try{
             return productDAO.findProductById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public List<Product> loadProduct(){
@@ -31,8 +30,8 @@ public class ProductController {
     public void deleteProduct(int id) {
         try{
             productDAO.deleteProduct(id);
-        }catch (Exception e) {
-            e.printStackTrace();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
         }
     }
 

@@ -40,7 +40,7 @@ Dashboard 2 (Rework)
 User(holds people) 3
 Customer 4
 Product 5
-Supplier (holds people)6
+Supplier (holds people)6 (when supplier delete, fk in product is null)
 supplier's products(Holds suppliers product)7
 Sales 8
 Order 9
