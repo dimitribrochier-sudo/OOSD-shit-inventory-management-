@@ -8,7 +8,6 @@ import app.inventory_management.models.Supplier;
 import app.inventory_management.models.User;
 import java.util.List;
 
-
 public class SupplierScreen extends JFrame {
     //same user
     private User user;
@@ -55,12 +54,36 @@ public class SupplierScreen extends JFrame {
         idField = new JTextField(8);
         leftPanel.add(idField);
 
+        //int searchfield
         JButton findButton = new JButton("Find");
-        //clean the input to a single string then boom
-        String input = idField.getText().trim();
-        //convert to int.
-        findButton.addActionListener(e -> controller.findSupplier(Integer.parseInt(input)));
+        findButton.addActionListener(e -> {
+            //clean the input to a single string then boom
+            String input = idField.getText().trim();
+            try {
+                //convert to int
+                int id = Integer.parseInt(input);
+                Supplier found = controller.findSupplier(id);
+
+                model.setRowCount(0);//clear table
+                if (found != null) {
+                    model.addRow(new Object[]{
+                            found.getSupplier_id(),
+                            found.getName(),
+                            found.getContactNumber(),
+                            found.getEmail(),
+                            found.getAddress(),
+                            found.getTimeStamp()
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(SupplierScreen.this, "Supplier not found!");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(SupplierScreen.this, "Please enter a valid numeric ID");
+            }
+        });
+
         leftPanel.add(findButton);
+
 
         //show all-->a way to revert back after searching as the screen stays on the search result
         JButton showAllButton = new JButton("Show All");
@@ -82,7 +105,17 @@ public class SupplierScreen extends JFrame {
 
         //delete button
         JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> controller.deleteSupplier(selectedRow()));
+        deleteButton.addActionListener(e -> {
+            //code is the number return by delete funct, if >0 it is succesfull
+            int code = controller.deleteSupplier(selectedRow());
+            if(code > 0){
+                JOptionPane.showMessageDialog(this, "Supplier deleted Successfully!");
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Supplier was not deleted.");
+            }
+
+        });
 
         //Add/Create Button
         JButton addButton = new JButton("Add");
@@ -93,7 +126,7 @@ public class SupplierScreen extends JFrame {
         editButton.addActionListener(e ->  editSupplier());
 
         rightPanel.add(addButton);
-        //rightPanel.add(editButton);
+        rightPanel.add(editButton);
         rightPanel.add(deleteButton);
 
         //adding the left and right in the top container
@@ -104,6 +137,7 @@ public class SupplierScreen extends JFrame {
         add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
 
+        //VISIBLE
         setVisible(true);
     }
 
@@ -113,7 +147,6 @@ public class SupplierScreen extends JFrame {
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
-        dialog.setVisible(true);
 
         // Title
         JLabel titleLabel = new JLabel("ADD SUPPLIER", SwingConstants.CENTER);
@@ -167,13 +200,23 @@ public class SupplierScreen extends JFrame {
             }
 
             Supplier supplier = new Supplier(name,phone,email,address);
-            controller.addSupplier(supplier);
-            dialog.dispose();
+            //check for null
+            if(controller.addSupplier(supplier) != null){
+                JOptionPane.showMessageDialog(dialog, "Supplier added successfully!");
+                dialog.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(dialog, "Supplier Could not be added");
+                dialog.dispose();
+            }
 
             //refresh table
             model.setRowCount(0);
             loadSuppliers();
         });
+
+        //visible
+        dialog.setVisible(true);
     }
 
     private void editSupplier() {
@@ -265,6 +308,8 @@ public class SupplierScreen extends JFrame {
             model.setRowCount(0);
             loadSuppliers();
         });
+        //dialogvisible
+        dialog.setVisible(true);
     }
 
     //loadtable
@@ -282,7 +327,6 @@ public class SupplierScreen extends JFrame {
             });
         }
     }
-
 
     //having a selecting function
     public int selectedRow (){

@@ -26,17 +26,17 @@ public class SupplierController {
         }
     }
 
-    public void deleteSupplier(int id) {
+    public int deleteSupplier(int id) {
         try {
-            supplierDAO.deleteSupplier(id);
+            return supplierDAO.deleteSupplier(id);
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
     }
 
-    public void addSupplier(Supplier supplier) {
+    public Supplier addSupplier(Supplier supplier) {
         try {
-            supplierDAO.addSupplier(supplier);
+           return supplierDAO.addSupplier(supplier);
         } catch (SQLException e){
             throw new RuntimeException(e);
         }

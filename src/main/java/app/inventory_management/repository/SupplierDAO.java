@@ -37,7 +37,7 @@ public class SupplierDAO {
         return null;
     }
 
-    public void addSupplier(Supplier supplier) throws SQLException{
+    public Supplier addSupplier(Supplier supplier) throws SQLException{
         String sql = "INSERT INTO suppliers (name, contact_number, email, address) VALUES(?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -46,16 +46,24 @@ public class SupplierDAO {
         ps.setString(3, supplier.getEmail());
         ps.setString(4, supplier.getAddress());
 
+
+        //using the row affected as a response from database
+        int rows = ps.executeUpdate();
+        if(rows > 0){
+            return supplier;
+        }else{
+            return null;
+        }
     }
 
-    public void deleteSupplier(int id) throws SQLException {
+    public int deleteSupplier(int id) throws SQLException {
 
+        String sql = "DELETE FROM suppliers WHERE supplier_id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, id);
 
-            String sql = "DELETE FROM suppliers WHERE supplier_id = ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-
-            ps.executeUpdate();
+        //using the row affected response from database as confirmation
+        return ps.executeUpdate();
         }
 
 
