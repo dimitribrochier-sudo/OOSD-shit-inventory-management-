@@ -25,11 +25,34 @@ or a user exception. the models are the actors and yeah thaaz about the structur
 TODOLIST = Review code to understand it,
             fix some buttons,
             flow wack
+            database sales, have timed event
+            User edit needs restructure(switching position)
+            Complete SalesScreen <--todo**
+            Rework Dashboard, maybe have a screen? to improve flow, for later (planning for not planning)
+            Work on limit crud ====> kabitch
+            error handlin ==> everyone hehe
+        ============================    =================================================================
+            NEW SCREENS YIPPEE
+            ReportScreen.
+            OrderScreen.========>Brochalchemly
+            Receipt <------We know know(a list of truncated receipt, which opens up to the gemini image sent in group)¬¬¬¬¬¬¬¬¬>Smrith
+            Analytics for revenue (DO DA GRAPH)===>katomic
+            supplier's products(Holds suppliers product) <copy for product and supplier.
+
+
+
+            ordertrackin(manager special)
+            saleTracking(manager special)
+
+
+
+
 
 NEW ROLES(
     Manager(overseers employers and suppliers, report)
     Admin(god)
     employee(track products and manage orders add a report.)
+    Supplier's product(Price listyes ) need tables in tbd
 )
 
 
@@ -41,15 +64,14 @@ User(holds people) 3
 Customer 4
 Product 5
 Supplier (holds people)6 (when supplier delete, fk in product is null)
-supplier's products(Holds suppliers product)7
+
 Sales 8
 Order 9
 Tracking of products 10 (when products status (on arrival, received, damaged, return)
 Tracking of orders 11 (when products status (on arrival, received, damaged, return)
 Alerts 12 (show low stock of items, or missed deadlines or whatever)
 inv transactions 13
-Analytics for revenue 14
-Report screens 15 (shows information of what happens in the inventory, bridgecommunication between employer and manager)
+
+Report screens 15 (shows information of what happens in the inventory
 
 
-Receipt (Feature)

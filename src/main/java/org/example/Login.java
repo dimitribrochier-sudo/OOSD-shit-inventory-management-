@@ -161,4 +161,8 @@ public class Login implements ActionListener {
 
         }
     }
+
+    public static void main(String[] args) {
+        Login login = new Login();
+    }
 }
