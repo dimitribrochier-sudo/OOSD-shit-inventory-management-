@@ -1,23 +1,31 @@
 package app.inventory_management.views;
 import app.inventory_management.controllers.SaleController;
-import app.inventory_management.views.ProductScreen;
-import org.example.Products;
+import app.inventory_management.models.Product;
+import app.inventory_management.controllers.ProductController;
+import app.inventory_management.utils.Calculator;
+
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ItemEvent;
 
 public class SalesScreen extends JFrame {
 
-    JComboBox<String> productDropdown;
+    JComboBox<Integer> productDropdown;
     JTextField productName;
     JTextField quantity;
-    JComboBox<String> customerDropdown;
+    JComboBox<Integer> customerDropdown;
     JTextField price;
     JTextField total;
 
     JButton confirmBtn;
 
-    SaleController controller = new SaleController();
+    SaleController saleController = new SaleController();
+    ProductController productController = new ProductController();
+    Calculator calculate = new Calculator();
+
+
+    private int currentStock = 0; //track stock
+    private double currentPrice = 0.0;
 
     public SalesScreen(){
         setTitle("Sales");
@@ -59,6 +67,11 @@ public class SalesScreen extends JFrame {
 
         productDropdown = new JComboBox<>();
         productDropdown.setBounds(150,20,150,25);
+        productDropdown.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                loadProducts();
+            }
+        });
 
         productName = new JTextField();
         productName.setBounds(150,50,150,25);
@@ -110,9 +123,37 @@ public class SalesScreen extends JFrame {
         int qty = Integer.parseInt(quantity.getText());
         double pr = Double.parseDouble(price.getText());
 
-        controller.createSale(productId, customerId, qty, pr);
+        saleController.createSale(productId, customerId, qty, pr);
 
         JOptionPane.showMessageDialog(this,"Sale recorded!");
+    }
+
+    private void loadProducts(){
+        if (productDropdown.getSelectedItem() == null) return;
+
+        try{
+            int productId = (Integer) productDropdown.getSelectedItem();
+            Product product = productController.findProduct(productId);
+
+            if (product != null){
+                productName.setText(product.getName());
+                currentPrice = product.getUnitPrice();
+                currentStock = product.getCurrentStock();
+
+
+                price.setText(String.format("%.2f", currentPrice));
+                quantity.setText("1");
+
+                //getting the numbers for call
+                int qty = Integer.parseInt(quantity.getText());
+                double amount = Double.parseDouble(price.getText());
+
+                //the total updated
+                total.setText(String.format("%.2f",calculate.updateTotal(qty, amount))); ;
+            }
+        }catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error loading product: " + ex.getMessage());
+        }
     }
 
 

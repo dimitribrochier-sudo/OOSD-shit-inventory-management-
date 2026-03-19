@@ -235,7 +235,7 @@ public class UserScreen extends  JFrame{
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            controller.deleteUser(selectedRow);
+            controller.deleteUser(userId);
             model.removeRow(selectedRow);
 
             JOptionPane.showMessageDialog(this, "User deleted");
@@ -271,8 +271,8 @@ public class UserScreen extends  JFrame{
         // Get selected row data
         int userId = (int) model.getValueAt(selectedRow, 0);
         String username = model.getValueAt(selectedRow, 1).toString();
-        String fullName = model.getValueAt(selectedRow, 2).toString();
-        String password = model.getValueAt(selectedRow, 3).toString();
+        String password = model.getValueAt(selectedRow, 2).toString();
+        String fullName = model.getValueAt(selectedRow, 3).toString();
         int roleId = (int) model.getValueAt(selectedRow, 4);
 
         // Create dialog
@@ -352,5 +352,7 @@ public class UserScreen extends  JFrame{
             loadUsers();
 
         });
+
+        dialog.setVisible(true);
     }
 }
