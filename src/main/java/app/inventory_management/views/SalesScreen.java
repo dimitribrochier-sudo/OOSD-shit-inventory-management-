@@ -1,12 +1,18 @@
 package app.inventory_management.views;
+
 import app.inventory_management.controllers.SaleController;
+import app.inventory_management.models.Customer;
 import app.inventory_management.models.Product;
 import app.inventory_management.controllers.ProductController;
 import app.inventory_management.utils.Calculator;
+import app.inventory_management.controllers.CustomerController;
 
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalesScreen extends JFrame {
 
@@ -22,6 +28,7 @@ public class SalesScreen extends JFrame {
     SaleController saleController = new SaleController();
     ProductController productController = new ProductController();
     Calculator calculate = new Calculator();
+    CustomerController customerController = new CustomerController();
 
 
     private int currentStock = 0; //track stock
@@ -31,7 +38,6 @@ public class SalesScreen extends JFrame {
         setTitle("Sales");
         setSize(400,300);
         setLayout(null);
-        setVisible(true);
 
         //adding labels objects to fields and combos
 
@@ -77,8 +83,16 @@ public class SalesScreen extends JFrame {
         productName.setBounds(150,50,150,25);
         productName.setEditable(false);
 
-        quantity = new JTextField();
+        quantity = new JTextField("1"); //default count
         quantity.setBounds(150,80,150,25);
+
+        //listens to change to quantity so that it updates the final total price
+        quantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                updateTotalField();
+            }
+        });
 
         customerDropdown = new JComboBox<>();
         customerDropdown.setBounds(150,110,150,25);
@@ -113,6 +127,37 @@ public class SalesScreen extends JFrame {
 
 
         confirmBtn.addActionListener(e -> saveSale());
+        loadDropDown();
+
+        setVisible(true);
+
+    }
+
+    private void loadDropDown() {
+
+        //take teh loadcustomers, and store id's in a new arrray list.
+        List<Integer> idCustomerList = new ArrayList<>();
+        List<Customer> customers = customerController.loadCustomer(); // get full list
+        for (Customer c : customers) {
+            idCustomerList.add(c.getCustomer_id());
+        }
+
+        //add them to the dropdownlist
+        for (Integer id: idCustomerList){
+            customerDropdown.addItem(id);
+        }
+
+        //take the loadproducts, and store the id's in a new array list.
+        List<Integer> idProductList = new ArrayList<>();
+        List<Product> products = productController.loadProduct();
+        for(Product p : products) {
+            idProductList.add(p.getProductId());
+        }
+
+        //add them to the dropdownlist
+        for (Integer id: idProductList){
+            productDropdown.addItem(id);
+        }
 
     }
 
@@ -126,7 +171,10 @@ public class SalesScreen extends JFrame {
         saleController.createSale(productId, customerId, qty, pr);
 
         JOptionPane.showMessageDialog(this,"Sale recorded!");
+
     }
+
+    //when selected it autofills
 
     private void loadProducts(){
         if (productDropdown.getSelectedItem() == null) return;
@@ -144,16 +192,20 @@ public class SalesScreen extends JFrame {
                 price.setText(String.format("%.2f", currentPrice));
                 quantity.setText("1");
 
-                //getting the numbers for call
-                int qty = Integer.parseInt(quantity.getText());
-                double amount = Double.parseDouble(price.getText());
-
-                //the total updated
-                total.setText(String.format("%.2f",calculate.updateTotal(qty, amount))); ;
+                updateTotalField();
             }
         }catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error loading product: " + ex.getMessage());
         }
+    }
+
+    private void updateTotalField() {
+        //getting the numbers for call
+        int qty = Integer.parseInt(quantity.getText());
+        double result = calculate.updateTotal(qty, currentPrice);
+
+        //the total updated
+        total.setText(String.format("%.2f",result));
     }
 
 
