@@ -3,7 +3,7 @@ package app.inventory_management.views;
 import javax.swing.*;
 import app.inventory_management.controllers.OrderController;
 
-public class OrderScreen extends JFrame {
+public class MakeOrderScreen extends JFrame {
     JComboBox<String> productDropdown;
     JTextField productName;
     JTextField quantity;
@@ -15,7 +15,7 @@ public class OrderScreen extends JFrame {
 
     OrderController controller = new OrderController();
 
-    public OrderScreen(){
+    public MakeOrderScreen(){
 
         setTitle("Order");
         setSize(400,300);
@@ -71,6 +71,6 @@ public class OrderScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        OrderScreen orderScreen = new OrderScreen();
+        MakeOrderScreen orderScreen = new MakeOrderScreen();
     }
 }

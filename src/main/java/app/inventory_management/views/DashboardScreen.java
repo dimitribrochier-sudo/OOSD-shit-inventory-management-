@@ -85,7 +85,7 @@ public class DashboardScreen extends JFrame {
 
         salesBtn.addActionListener(e -> {
             //dispose(); need to rework on this bit
-            new SalesScreen();
+            new MakeSalesScreen();
         });
 
         customerBtn.addActionListener(e -> {

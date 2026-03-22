@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalesScreen extends JFrame {
+public class MakeSalesScreen extends JFrame {
 
     JComboBox<Integer> productDropdown;
     JTextField productName;
@@ -34,7 +34,7 @@ public class SalesScreen extends JFrame {
     private int currentStock = 0; //track stock
     private double currentPrice = 0.0;
 
-    public SalesScreen(){
+    public MakeSalesScreen(){
         setTitle("Sales");
         setSize(400,300);
         setLayout(null);
@@ -126,9 +126,14 @@ public class SalesScreen extends JFrame {
         add(totalLabel);
 
 
-        confirmBtn.addActionListener(e -> saveSale());
-        loadDropDown();
+        confirmBtn.addActionListener(e -> {
+            saveSale();
+            SaleScreen saleScreen = new SaleScreen();
+            dispose();
+        });
 
+
+        loadDropDown();
         setVisible(true);
 
     }
@@ -210,6 +215,6 @@ public class SalesScreen extends JFrame {
 
 
     public static void main(String[] args){
-        new SalesScreen();
+        new MakeSalesScreen();
     }
 }
