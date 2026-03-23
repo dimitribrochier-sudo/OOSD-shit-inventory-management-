@@ -54,17 +54,20 @@ public class DashboardScreen extends JFrame {
         JButton supplierBtn = new JButton("Suppliers");
         JButton productBtn = new JButton("Products");
         JButton salesBtn = new JButton("Sales");
+        JButton orderBtn = new JButton("Orders");
         JButton customerBtn = new JButton ("Customers");
-        JButton inv_transBtn = new JButton("Inventory Transaction");
+        JButton analyticsBtn = new JButton("Analytics");
         JButton logoutBtn = new JButton("Log Out");
+
 
         //Adding the buttons
         buttonPanel.add(userBtn);
         buttonPanel.add(supplierBtn);
         buttonPanel.add(productBtn);
         buttonPanel.add(salesBtn);
+        buttonPanel.add(orderBtn);
         buttonPanel.add(customerBtn);
-        buttonPanel.add(inv_transBtn);
+        buttonPanel.add(analyticsBtn);
         buttonPanel.add(logoutBtn);
 
         //action to buttons
@@ -84,8 +87,13 @@ public class DashboardScreen extends JFrame {
         });
 
         salesBtn.addActionListener(e -> {
-            //dispose(); need to rework on this bit
-            new MakeSalesScreen();
+            dispose();
+            new SaleScreen();
+        });
+
+        orderBtn.addActionListener(e-> {
+            dispose();
+            new OrderScreen();
         });
 
         customerBtn.addActionListener(e -> {
@@ -93,7 +101,10 @@ public class DashboardScreen extends JFrame {
             new CustomerScreen();
         });
 
-        inv_transBtn.addActionListener(e -> JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!"));
+        analyticsBtn.addActionListener(e-> {
+            dispose();
+            new AnalyticScreen();
+        });
 
         logoutBtn.addActionListener(e -> {
             SessionManager.getInstance().logout();

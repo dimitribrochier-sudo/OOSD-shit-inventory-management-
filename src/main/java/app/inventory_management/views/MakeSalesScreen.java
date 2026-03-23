@@ -49,7 +49,6 @@ public class MakeSalesScreen extends JFrame {
         JLabel totalLabel;
 
         //adding labels
-
         productLabel = new JLabel("Product ID: ");
         productLabel.setBounds(20,20,120,25);
 
@@ -213,8 +212,4 @@ public class MakeSalesScreen extends JFrame {
         total.setText(String.format("%.2f",result));
     }
 
-
-    public static void main(String[] args){
-        new MakeSalesScreen();
-    }
 }

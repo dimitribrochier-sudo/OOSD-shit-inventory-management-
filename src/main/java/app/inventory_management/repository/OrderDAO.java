@@ -16,14 +16,13 @@ public class OrderDAO {
     Connection connection = DBConnection.getConnection();
 
     public void insertOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders(product_id, supplier_id, quantity, price, total_price) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO orders(product_id, supplier_id, quantity, price) VALUES(?,?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, order.getProductId());
             stmt.setInt(2, order.getSupplierId());
             stmt.setInt(3, order.getQuantity());
             stmt.setDouble(4, order.getPrice());
-            stmt.setDouble(5, order.getTotalPrice());
 
             stmt.executeUpdate();
         }

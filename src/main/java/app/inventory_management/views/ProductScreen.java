@@ -399,6 +399,4 @@ public class ProductScreen extends JFrame {
 
         dialog.setVisible(true);
     }
-
-    public static void main(String[] args){new ProductScreen();}
 }

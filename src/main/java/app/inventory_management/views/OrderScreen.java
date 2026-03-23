@@ -136,9 +136,4 @@ public class OrderScreen extends JFrame {
         dispose();
         new MakeOrderScreen();
     }
-
-    public static void main(String[] args) {
-        new OrderScreen();
-    }
-
 }

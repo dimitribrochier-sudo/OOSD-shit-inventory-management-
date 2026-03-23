@@ -5,7 +5,9 @@ import app.inventory_management.repository.SaleDAO;
 import app.inventory_management.models.Product;
 import app.inventory_management.controllers.ProductController;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SaleController {
 
@@ -51,6 +53,49 @@ public class SaleController {
     public Sale findSale(int id) {
         try {
             return saleDAO.findSaleById(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Map<String, Integer> salesPerProduct() {
+        try{
+            return saleDAO.salesPerProduct();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
+    }
+
+    //for analytics
+
+    public int getTotalSales() {
+        try{
+            return saleDAO.getTotalSales();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getTotalOrders() {
+        try{
+            return saleDAO.getTotalOrders();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getTotalQuantity() {
+        try{
+            return saleDAO.getTotalQuantity();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getTopProduct() {
+        try{
+            return saleDAO.getTopProduct();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SaleDAO {
     Connection connection = DBConnection.getConnection();
@@ -74,4 +76,74 @@ public class SaleDAO {
         }
         return saleList;
     }
+
+    //for total sales analytics
+    public int getTotalSales() throws SQLException {
+        String sql = "SELECT SUM(totalPrice) FROM sales";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        return rs.next() ? rs.getInt(1) : 0;
+    }
+
+    //for total orders analytics
+    public int getTotalOrders() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM sales";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        return rs.next() ? rs.getInt(1) : 0;
+    }
+
+    //for total quantity analytics
+    public int getTotalQuantity() throws SQLException {
+        String sql = "SELECT SUM(quantity) FROM sales";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        return rs.next() ? rs.getInt(1) : 0;
+    }
+
+    //for top products analytics
+    public String getTopProduct() throws SQLException {
+        String sql = """
+        SELECT productId, SUM(totalPrice) AS total
+        FROM sales
+        GROUP BY productId
+        ORDER BY total DESC
+        LIMIT 1
+        """;
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return "P" + rs.getInt("productId");
+        }
+        return "N/A";
+    }
+
+
+    //for the barchart we need a hashmap
+    public Map<String, Integer> salesPerProduct() throws SQLException {
+        //hashmap stores 2 values in a nutshell
+        Map<String, Integer> data = new HashMap<>();
+
+        String sql = "SELECT productId, SUM(totalPrice) AS totalSales FROM sales GROUP BY productId";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            String product = "p" + rs.getInt("productId");
+            int total = rs.getInt("totalSales");
+
+            data.put(product, total);
+        }
+        return data;
+    }
+
+
+
+
 }

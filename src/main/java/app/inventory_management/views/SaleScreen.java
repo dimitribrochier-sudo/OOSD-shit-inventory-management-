@@ -134,8 +134,4 @@ public class SaleScreen extends JFrame {
         new MakeSalesScreen();
     }
 
-    public static void main(String[] args) {
-        new SaleScreen();
-    }
-
 }

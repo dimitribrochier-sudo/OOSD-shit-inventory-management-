@@ -2,123 +2,92 @@ package app.inventory_management.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import app.inventory_management.utils.BarChartPanel;
+import app.inventory_management.controllers.SaleController;
 
-public class AnalyticScreen extends JFrame {
+public class AnalyticScreen extends JFrame{
 
-    public AnalyticScreen() {
-        setTitle("Rudimentary Sales Graph (Swing)");
+    SaleController controller = new SaleController();
+
+    //taken from youtube videos and W3Schools.
+
+    public AnalyticScreen(){
+        setTitle("Analytics Dashboard");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // 1. Get your data (Simulating your database results)
-        // In a real app, you would run your SQL query here and populate this list
-        List<Double> salesData = getSalesDataFromDatabase();
+        setLayout(new BorderLayout());
 
-        // 2. Add the custom drawing panel
-        add(new ChartPanel(salesData));
+        //TEH Summary of sales ig
+        add(summaryPanel(), BorderLayout.NORTH);
+
+        //adding the barchart
+        add(new BarChartPanel(controller.salesPerProduct()), BorderLayout.CENTER);
+
+        //add bottom panel
+        add(bottomPanel(), BorderLayout.SOUTH);
 
         setVisible(true);
     }
 
-    // Simulate fetching data from your SQL table
-    private List<Double> getSalesDataFromDatabase() {
-        List<Double> data = new ArrayList<>();
-        // Mimicking the totals from your screenshot: 90000, 1200, 90000, etc.
-        data.add(90000.0);
-        data.add(1200.0);
-        data.add(90000.0);
-        data.add(1200.0);
-        data.add(450000.0);
-        data.add(45000.0);
-        data.add(135000.0);
-        data.add(1000.0);
-        return data;
+    private JPanel summaryPanel(){
+
+        //setting the data
+        String totalSales = String.valueOf(controller.getTotalSales());
+        String totalOrders = String.valueOf(controller.getTotalOrders());
+        String totalQuantity = String.valueOf(controller.getTotalQuantity());
+        String topProduct = controller.getTopProduct();
+
+
+        //this is a panel holding cards
+        JPanel panel = new JPanel(new GridLayout(1, 4, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        //adding them heh
+        panel.add(card("Total sales", totalSales));
+        panel.add(card("Orders", totalOrders));
+        panel.add(card("Items Sold", totalQuantity));
+        panel.add(card("Best Product", topProduct));
+
+        return panel;
     }
 
-    // --- INNER CLASS: The Custom Graph Panel ---
-    static class ChartPanel extends JPanel {
-        private final List<Double> data;
-        private final int padding = 50; // Space for labels
+    private JPanel card(String title, String value){
+        //Makin cards
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createLineBorder(Color.red));
 
-        public ChartPanel(List<Double> data) {
-            this.data = data;
-            setBackground(Color.WHITE);
-        }
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        JLabel valueLabel = new JLabel(value, SwingConstants.CENTER);
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
+        valueLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-            // Enable anti-aliasing for smoother lines
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //adding the cards now
+        panel.add(titleLabel,BorderLayout.NORTH);
+        panel.add(valueLabel, BorderLayout.CENTER);
 
-            int width = getWidth();
-            int height = getHeight();
-
-            // 1. Draw Axes
-            g2.setColor(Color.BLACK);
-            g2.setStroke(new BasicStroke(2));
-            // Y Axis
-            g2.drawLine(padding, padding, padding, height - padding);
-            // X Axis
-            g2.drawLine(padding, height - padding, width - padding, height - padding);
-
-            if (data.isEmpty()) return;
-
-            // 2. Calculate Scale
-            double maxVal = data.stream().max(Double::compare).orElse(1.0);
-            double minVal = 0; // Start graph at 0
-
-            // Available drawing space
-            double graphWidth = width - 2 * padding;
-            double graphHeight = height - 2 * padding;
-
-            // 3. Draw the Line Graph
-            g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(3));
-
-            for (int i = 0; i < data.size() - 1; i++) {
-                // Calculate X1, Y1 (Current point)
-                int x1 = padding + (int) (i * (graphWidth / (data.size() - 1)));
-                int y1 = height - padding - (int) ((data.get(i) / maxVal) * graphHeight);
-
-                // Calculate X2, Y2 (Next point)
-                int x2 = padding + (int) ((i + 1) * (graphWidth / (data.size() - 1)));
-                int y2 = height - padding - (int) ((data.get(i + 1) / maxVal) * graphHeight);
-
-                // Draw line segment
-                g2.drawLine(x1, y1, x2, y2);
-
-                // Draw dots at points
-                g2.fillOval(x1 - 3, y1 - 3, 6, 6);
-            }
-
-            // Draw last dot
-            int lastIndex = data.size() - 1;
-            int lastX = padding + (int) (lastIndex * (graphWidth / (data.size() - 1)));
-            int lastY = height - padding - (int) ((data.get(lastIndex) / maxVal) * graphHeight);
-            g2.fillOval(lastX - 3, lastY - 3, 6, 6);
-
-            // 4. Draw Labels (Optional rudimentary labels)
-            g2.setColor(Color.BLACK);
-            g2.setFont(new Font("Arial", Font.PLAIN, 12));
-            g2.drawString("$" + (int)maxVal, 5, padding);
-            g2.drawString("$0", 5, height - padding);
-            g2.drawString("Time (Order ID)", width / 2, height - 10);
-        }
+        return panel;
     }
 
-    public static void main(String[] args) {
-        // Run on Event Dispatch Thread for thread safety
-        SwingUtilities.invokeLater(AnalyticScreen::new);
-    }
+    private JPanel bottomPanel() {
+        JPanel panel = new JPanel();
 
+        JButton backBtn = new JButton("Back");
+
+        backBtn.addActionListener(e -> {
+            dispose();// closes this screen
+            new DashboardScreen();
+        });
+
+        panel.add(backBtn);
+        return panel;
+    }
 }
+
+
 
 
 

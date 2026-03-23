@@ -12,7 +12,7 @@ public class Order {
     private double totalPrice;
     private Timestamp created_at;
 
-    //adding from database
+    //adding to database
     public Order(int productId, int supplierId, int quantity, double price) {
         this.productId = productId;
         this.supplierId = supplierId;
@@ -25,7 +25,8 @@ public class Order {
     public Order(int orderId, int productId, int supplierId, int quantity, double price, double totalPrice, Timestamp created_at){
         this.orderId = orderId;
         this.productId = productId;
-        this.supplierId = quantity;
+        this.supplierId = supplierId;
+        this.quantity = quantity;
         this.price = price;
         this.totalPrice = totalPrice;
         this.created_at = created_at;
