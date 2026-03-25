@@ -52,9 +52,6 @@ public class ProductScreen extends JFrame {
         leftPanel.add(idField);
 
         JButton findButton = new JButton("Find");
-        //clean input
-        String input = idField.getText().trim();
-        //convert to int
         findButton.addActionListener(e ->  findProductById());
         leftPanel.add(findButton);
 
@@ -402,6 +399,4 @@ public class ProductScreen extends JFrame {
 
         dialog.setVisible(true);
     }
-
-    public static void main(String[] args){new ProductScreen();}
 }

@@ -26,7 +26,6 @@ TODOLIST = Review code to understand it,
             fix some buttons,
             flow wack
             database sales, have timed event
-            User edit needs restructure(switching position)
             Complete SalesScreen <--todo**
             Rework Dashboard, maybe have a screen? to improve flow, for later (planning for not planning)
             Work on limit crud ====> kabitch

@@ -2,37 +2,38 @@ package app.inventory_management.models;
 
 import java.sql.Timestamp;
 
-public class Sale {
-    private int saleId;
+public class Order {
+
+    private int orderId;
     private int productId;
-    private int customerId;
+    private int supplierId;
     private int quantity;
     private double price;
     private double totalPrice;
     private Timestamp created_at;
 
-    //adding a sale
-    public Sale(int productId, int customerId, int quantity, double price) {
+    //adding to database
+    public Order(int productId, int supplierId, int quantity, double price) {
         this.productId = productId;
-        this.customerId = customerId;
+        this.supplierId = supplierId;
         this.quantity = quantity;
         this.price = price;
         this.totalPrice = quantity * price;
     }
 
-    //loading a sale
-    public Sale(int saleId, int productId, int customerId, int quantity, double price, double totalPrice, Timestamp created_at) {
-        this.saleId = saleId;
+    //reading from database
+    public Order(int orderId, int productId, int supplierId, int quantity, double price, double totalPrice, Timestamp created_at){
+        this.orderId = orderId;
         this.productId = productId;
-        this.customerId = customerId;
+        this.supplierId = supplierId;
         this.quantity = quantity;
         this.price = price;
-        this.totalPrice = quantity * price;
+        this.totalPrice = totalPrice;
         this.created_at = created_at;
     }
 
-    public int getSaleId() {
-        return saleId;
+    public int getOrderId() {
+        return orderId;
     }
 
     public double getTotalPrice() {
@@ -43,8 +44,8 @@ public class Sale {
         return productId;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getSupplierId() {
+        return supplierId;
     }
 
     public int getQuantity() {
@@ -58,7 +59,4 @@ public class Sale {
     public Timestamp getCreated_at() {
         return created_at;
     }
-
-
-
 }
