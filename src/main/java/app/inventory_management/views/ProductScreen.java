@@ -494,6 +494,7 @@ public class ProductScreen extends JFrame {
             }
 
             Product editedProduct = new Product(
+                    productId,
                     newName,
                     categoryEnum,
                     newUnitPrice,
