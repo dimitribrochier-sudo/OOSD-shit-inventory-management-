@@ -21,8 +21,21 @@ public class SaleScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
+        this.getContentPane().setBackground(new Color(15, 23, 42));//chnaged bgcolor
+
         model = new DefaultTableModel();
         table = new JTable(model);
+
+        //for table color
+        table.setBackground(new Color(30, 41, 59));
+        table.setForeground(new Color(241, 245, 249));
+        table.setGridColor(new Color(51, 65, 85));
+        table.setSelectionBackground(new Color(51, 65, 85));
+        table.setSelectionForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.getTableHeader().setBackground(new Color(15, 23, 42));
+        table.getTableHeader().setForeground(new Color(241, 245, 249));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
 
         // Columns (adjust based on your Sale model later)
         model.addColumn("Sale ID");
@@ -37,16 +50,23 @@ public class SaleScreen extends JFrame {
         loadSales();
 
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(new Color(15, 23, 42));//changed
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());//chnaged
         add(scrollPane, BorderLayout.CENTER);
 
         // Top container
         JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setBackground(new Color(15, 23, 42));//chnaged
 
         // LEFT SIDE
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(new Color(15, 23, 42));
 
         //Finding sale by id
-        leftPanel.add(new JLabel("Find Sale by ID:"));
+        JLabel findLabel = new JLabel("Find By Sale ID:");
+        findLabel.setForeground(new Color(241, 245, 249)); // Set the color to white
+
+        leftPanel.add(findLabel);
         idField = new JTextField(8);
         leftPanel.add(idField);
 
@@ -65,6 +85,7 @@ public class SaleScreen extends JFrame {
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton makeSaleButton = new JButton("Make Sale");
         makeSaleButton.addActionListener(e -> openMakeSalesScreen());
+        rightPanel.setBackground(new Color(15, 23, 42));
 
         rightPanel.add(makeSaleButton);
 

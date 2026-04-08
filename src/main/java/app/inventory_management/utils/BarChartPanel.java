@@ -7,10 +7,18 @@ import java.util.Map;
 public class BarChartPanel extends JPanel {
 
     private Map<String, Integer> data;
+    // color
+    private final Color COOL_CHARCOAL = new Color(15, 23, 42);
+    private final Color BAR_COLOR = new Color(59, 130, 246);
+    private final Color TEXT_WHITE = new Color(241, 245, 249);
+    private final Color AXIS_COLOR = new Color(71, 85, 105);
+
 
     public BarChartPanel(Map<String, Integer> data) {
         this.data = data;
-        setBorder(BorderFactory.createLineBorder(Color.black));
+        setBackground(COOL_CHARCOAL);
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBorder(BorderFactory.createLineBorder(new Color(71, 85, 105)));
     }
 
     @Override
@@ -33,11 +41,11 @@ public class BarChartPanel extends JPanel {
             int barHeight = (int) ((double) value / maxValue * (height - 100));
 
             // Draw bar
-            g.setColor(Color.BLUE);
+            g.setColor(new Color(241, 245, 249));
             g.fillRect(x, height - barHeight - 50, barWidth, barHeight);
 
             // Draw label (product)
-            g.setColor(Color.BLACK);
+            g.setColor(new Color(241, 245, 249));
             g.drawString(entry.getKey(), x, height - 30);
 
             // Draw value

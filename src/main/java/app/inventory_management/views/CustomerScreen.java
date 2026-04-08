@@ -24,9 +24,22 @@ public class CustomerScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
+        this.getContentPane().setBackground(new Color(15, 23, 42));//chnaged bgcolor
+
         //SETTING THE TABLE
         model = new DefaultTableModel();
         table = new JTable(model);
+
+        //for table color
+        table.setBackground(new Color(30, 41, 59));
+        table.setForeground(new Color(241, 245, 249));
+        table.setGridColor(new Color(51, 65, 85));
+        table.setSelectionBackground(new Color(51, 65, 85));
+        table.setSelectionForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.getTableHeader().setBackground(new Color(15, 23, 42));
+        table.getTableHeader().setForeground(new Color(241, 245, 249));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
 
         //Adding Columns names
         model.addColumn("CustomerScreen ID");
@@ -40,16 +53,24 @@ public class CustomerScreen extends JFrame {
 
         //added the table inside a scrollable panel(vertical)
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(new Color(15, 23, 42));//changed
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());//chnaged
         add(scrollPane, BorderLayout.CENTER);
 
         //All buttons
         //creating a main top container to separates left and right buttons
         JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setBackground(new Color(15, 23, 42));//chnaged
 
         //Everything on the left side
         JPanel leftPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
+        leftPanel.setBackground(new Color(15, 23, 42));
         //find CustomerScreen by id
-        leftPanel.add(new JLabel("Find By CustomerScreen ID:"));
+        //chnaged section
+        JLabel findLabel = new JLabel("Find By Customer ID:");
+        findLabel.setForeground(new Color(241, 245, 249)); // Set the color to white
+
+        leftPanel.add(findLabel);
         idField = new JTextField(8);
         leftPanel.add(idField);
 
@@ -76,6 +97,7 @@ public class CustomerScreen extends JFrame {
 
         //creating the right container
         JPanel rightPanel=new JPanel((new FlowLayout(FlowLayout.RIGHT)));
+        rightPanel.setBackground(new Color(15, 23, 42));
 
         //delete button
         JButton deleteButton = new JButton("Delete");
@@ -125,14 +147,18 @@ public class CustomerScreen extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
+
         // Title
         JLabel titleLabel = new JLabel("EDIT CUSTOMER", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField(name);
@@ -220,6 +246,17 @@ public class CustomerScreen extends JFrame {
                 JOptionPane.showMessageDialog(dialog, "Please enter a valid number!");
             }
         });
+        for (Component comp : formPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setForeground(new Color(241, 245, 249));
+            } else if (comp instanceof JTextField) {
+                comp.setBackground(new Color(30, 41, 59));
+                comp.setForeground(Color.WHITE);
+
+                ((JTextField) comp).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
+
 
         dialog.setVisible(true);
     }
@@ -231,14 +268,18 @@ public class CustomerScreen extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
+
         // Title
         JLabel titleLabel = new JLabel("ADD CUSTOMER", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField();
@@ -322,6 +363,17 @@ public class CustomerScreen extends JFrame {
             model.setRowCount(0);
             loadCustomers();
         });
+        for (Component comp : formPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setForeground(new Color(241, 245, 249));
+            } else if (comp instanceof JTextField) {
+                comp.setBackground(new Color(30, 41, 59));
+                comp.setForeground(Color.WHITE);
+
+                ((JTextField) comp).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
+
 
         dialog.setVisible(true);
     }

@@ -28,6 +28,17 @@ public class OrderScreen extends JFrame {
         model = new DefaultTableModel();
         table = new JTable(model);
 
+        //for table color
+        table.setBackground(new Color(30, 41, 59));
+        table.setForeground(new Color(241, 245, 249));
+        table.setGridColor(new Color(51, 65, 85));
+        table.setSelectionBackground(new Color(51, 65, 85));
+        table.setSelectionForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.getTableHeader().setBackground(new Color(15, 23, 42));
+        table.getTableHeader().setForeground(new Color(241, 245, 249));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
+
         // Columns
         model.addColumn("Order ID");
         model.addColumn("Product ID");
@@ -40,15 +51,22 @@ public class OrderScreen extends JFrame {
         loadOrders();
 
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(new Color(15, 23, 42));//changed
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());//chnaged
         add(scrollPane, BorderLayout.CENTER);
 
         // Top container
         JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setBackground(new Color(15, 23, 42));//chnaged
 
         // LEFT SIDE
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(new Color(15, 23, 42));
 
-        leftPanel.add(new JLabel("Find Order by ID:"));
+        JLabel findLabel = new JLabel("Find By Order ID:");
+        findLabel.setForeground(new Color(241, 245, 249)); // Set the color to white
+
+        leftPanel.add(findLabel);
         idField = new JTextField(8);
         leftPanel.add(idField);
 
@@ -65,6 +83,7 @@ public class OrderScreen extends JFrame {
 
         // RIGHT SIDE
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightPanel.setBackground(new Color(15, 23, 42));
 
         JButton makeOrderButton = new JButton("Make Order");
         makeOrderButton.addActionListener(e -> openMakeOrderScreen());

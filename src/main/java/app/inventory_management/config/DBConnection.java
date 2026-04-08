@@ -12,7 +12,7 @@ public class DBConnection {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(
-                        "jdbc:mysql://127.0.0.1:3306/inventory_management",
+                        "jdbc:mysql://127.0.0.1:3307/inventory_forecast",
                         "root",
                         ""
                 );

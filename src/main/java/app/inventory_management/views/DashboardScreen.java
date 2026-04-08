@@ -9,6 +9,8 @@ import app.inventory_management.utils.SessionManager;
 public class DashboardScreen extends JFrame {
 
     public DashboardScreen(){
+        this.getContentPane().setBackground(new Color(15, 23, 42));//bg color
+
         //check session
         if (!SessionManager.getInstance().isLoggedIn()) {
             new LoginScreen();
@@ -27,9 +29,11 @@ public class DashboardScreen extends JFrame {
         setVisible(true);
         setResizable(false);
 
+
         //swing constant control alignment inside component
         JLabel titleLabel = new JLabel("WELCOME " + currentUser.getUsername(), SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 22));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         add(titleLabel, BorderLayout.NORTH);
 
@@ -49,6 +53,7 @@ public class DashboardScreen extends JFrame {
         buttonPanel.setLayout(new GridLayout(7, 1, 15, 15));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 60, 20, 60));
         buttonPanel.setSize(250,60);
+        buttonPanel.setBackground(new Color(30, 41, 59));
 
         //Building button
         JButton userBtn = new JButton("Users");
