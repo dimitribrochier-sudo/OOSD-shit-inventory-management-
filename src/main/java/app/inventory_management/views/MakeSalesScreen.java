@@ -38,6 +38,7 @@ public class MakeSalesScreen extends JFrame {
         setTitle("Sales");
         setSize(400,300);
         setLayout(null);
+        setResizable(false);
 
         //adding labels objects to fields and combos
 

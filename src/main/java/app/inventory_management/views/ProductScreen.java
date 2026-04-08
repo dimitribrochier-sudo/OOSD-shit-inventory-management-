@@ -20,6 +20,7 @@ public class ProductScreen extends JFrame {
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
 
         model = new DefaultTableModel();
@@ -179,6 +180,7 @@ public class ProductScreen extends JFrame {
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
+
 
         // title add product
         JLabel titleLabel = new JLabel("ADD PRODUCT", SwingConstants.CENTER);

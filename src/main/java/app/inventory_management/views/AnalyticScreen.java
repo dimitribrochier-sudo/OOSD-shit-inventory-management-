@@ -16,7 +16,7 @@ public class AnalyticScreen extends JFrame{
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        setResizable(false);
         setLayout(new BorderLayout());
 
         //TEH Summary of sales ig

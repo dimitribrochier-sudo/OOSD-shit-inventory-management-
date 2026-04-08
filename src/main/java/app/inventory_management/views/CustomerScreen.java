@@ -22,6 +22,7 @@ public class CustomerScreen extends JFrame {
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
         //SETTING THE TABLE
         model = new DefaultTableModel();

@@ -25,6 +25,7 @@ public class DashboardScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setVisible(true);
+        setResizable(false);
 
         //swing constant control alignment inside component
         JLabel titleLabel = new JLabel("WELCOME " + currentUser.getUsername(), SwingConstants.CENTER);

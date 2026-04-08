@@ -25,6 +25,7 @@ public class UserScreen extends  JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        setResizable(false);
 
         //SETTING THE TABLE
         model = new DefaultTableModel();
