@@ -128,16 +128,15 @@ public class MakeOrderScreen extends JFrame {
 
         confirmBtn.addActionListener(e -> {
             saveOrder();
-            new OrderScreen();
             dispose();
+            new MakeOrderScreen();
         });
 
         returnBtn.addActionListener(e -> {
-            new OrderScreen();
             dispose();
+            new OrderScreen();
         });
 
-        // 2. THE STYLING LOOP
         // Run this at the end of the constructor, before setVisible(true)
         for (java.awt.Component c : this.getContentPane().getComponents()) {
 
@@ -193,24 +192,13 @@ public class MakeOrderScreen extends JFrame {
 
     private void saveOrder() {
 
+        updateTotalField();
+
         int productId = Integer.parseInt(productDropdown.getSelectedItem().toString());
         int supplierId = Integer.parseInt(supplierDropdown.getSelectedItem().toString());
-        String qtyText = quantity.getText().trim();
+        int qty = Integer.parseInt(quantity.getText().trim());
         double pr = Double.parseDouble(price.getText());
 
-        int qty;
-
-        try{
-            qty = Integer.parseInt(qtyText);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Only numbers!" );
-            return;
-        }
-
-        if(qty < 0){
-            JOptionPane.showMessageDialog(this, "Only Positive values needed!");
-            return;
-        }
 
         orderController.createOrder(productId, supplierId, qty, pr);
 
@@ -241,13 +229,25 @@ public class MakeOrderScreen extends JFrame {
 
     private void updateTotalField() {
         try {
+            //validating
             int qty = Integer.parseInt(quantity.getText().trim());
-            if (qty < 1) throw new IllegalArgumentException("Positive Only");
-
+            if (qty < 1) {
+                total.setText("QTY MUST > 0");
+                total.setForeground(Color.RED);
+                return;
+            }
+            //total
             double result = calculate.updateTotal(qty, currentPrice);
             total.setText(String.format("%.2f", result));
+            total.setForeground(Color.WHITE);
+
         }catch(NumberFormatException e){
-            total.setText("1");
+            total.setText("Invalid");
+            total.setForeground(Color.DARK_GRAY);
+        }
+        catch (Exception e) {
+            total.setText("oops!");
+            total.setForeground(Color.cyan);
         }
     }
 }

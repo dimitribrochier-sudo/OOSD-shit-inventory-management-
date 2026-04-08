@@ -136,12 +136,12 @@ public class MakeSalesScreen extends JFrame {
 
         confirmBtn.addActionListener(e -> {
             saveSale();
-            SaleScreen saleScreen = new SaleScreen();
+            new MakeSalesScreen();
             dispose();
         });
 
         returnBtn.addActionListener(e -> {
-            new OrderScreen();
+            new SaleScreen();
             dispose();
         });
 
@@ -195,24 +195,12 @@ public class MakeSalesScreen extends JFrame {
 
     private void saveSale() {
 
+        updateTotalField();
+
         int productId = Integer.parseInt(productDropdown.getSelectedItem().toString());
         int customerId = Integer.parseInt(customerDropdown.getSelectedItem().toString());
-        String qtyText = quantity.getText();
+        int qty = Integer.parseInt(quantity.getText().trim());
         double pr = Double.parseDouble(price.getText());
-
-        int qty;
-
-        try{
-            qty = Integer.parseInt(qtyText);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Only numbers!" );
-            return;
-        }
-
-        if(qty < 0){
-            JOptionPane.showMessageDialog(this, "Only Positive values needed!");
-            return;
-        }
 
         saleController.createSale(productId, customerId, qty, pr);
 
@@ -246,12 +234,27 @@ public class MakeSalesScreen extends JFrame {
     }
 
     private void updateTotalField() {
-        //getting the numbers for call
-        int qty = Integer.parseInt(quantity.getText());
-        double result = calculate.updateTotal(qty, currentPrice);
+        try {
+            //validating
+            int qty = Integer.parseInt(quantity.getText().trim());
+            if (qty < 1) {
+                total.setText("QTY MUST > 0");
+                total.setForeground(Color.RED);
+                return;
+            }
+            //total
+            double result = calculate.updateTotal(qty, currentPrice);
+            total.setText(String.format("%.2f", result));
+            total.setForeground(Color.WHITE);
 
-        //the total updated
-        total.setText(String.format("%.2f",result));
+        }catch(NumberFormatException e){
+            total.setText("Invalid");
+            total.setForeground(Color.DARK_GRAY);
+        }
+        catch (Exception e) {
+            total.setText("oops!");
+            total.setForeground(Color.cyan);
+        }
     }
 
 }
