@@ -278,7 +278,6 @@ public class CustomerScreen extends JFrame {
                 return;
             }
 
-
             int contact;
 
             try{
@@ -308,8 +307,6 @@ public class CustomerScreen extends JFrame {
                 JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
                 return;
             }
-
-
 
             Customer newCustomer = new Customer(
                     name,

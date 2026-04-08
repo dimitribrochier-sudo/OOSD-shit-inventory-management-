@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 public class Supplier {
     private int supplier_id;
     private String name;
-    private String contactNumber;
+    private int contactNumber;
     private String email;
     private String address;
     private Timestamp timeStamp;
 
     //this one is used to add it to the database
-    public Supplier(String name, String contactNumber, String email, String address) {
+    public Supplier(String name, int contactNumber, String email, String address) {
         this.name = name;
         this.contactNumber = contactNumber;
         this.email = email;
@@ -19,7 +19,7 @@ public class Supplier {
     }
 
     //this one is to get from the database
-    public Supplier(int supplier_id, String name, String contactNumber, String email, String address, Timestamp timeStamp) {
+    public Supplier(int supplier_id, String name, int contactNumber, String email, String address, Timestamp timeStamp) {
         this.supplier_id = supplier_id;
         this.name = name;
         this.contactNumber = contactNumber;
@@ -29,7 +29,7 @@ public class Supplier {
     }
 
     //this one is for editing
-    public Supplier(int supplier_id, String name, String contactNumber, String email, String address) {
+    public Supplier(int supplier_id, String name, int contactNumber, String email, String address) {
         this.supplier_id = supplier_id;
         this.name = name;
         this.contactNumber = contactNumber;
@@ -45,7 +45,7 @@ public class Supplier {
     public String getName() {
         return name;
     }
-    public String getContactNumber() {
+    public int getContactNumber() {
         return contactNumber;
     }
     public String getEmail() {
@@ -62,7 +62,7 @@ public class Supplier {
     public void setName(String name) {
         this.name = name;
     }
-    public void setContactNumber(String contactNumber) {
+    public void setContactNumber(int contactNumber) {
         this.contactNumber = contactNumber;
     }
     public void setEmail(String email) {

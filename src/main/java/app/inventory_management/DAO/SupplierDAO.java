@@ -24,7 +24,7 @@ public class SupplierDAO {
             return new Supplier(
                     rs.getInt("supplier_id"),
                     rs.getString("name"),
-                    rs.getString("contact_number"),
+                    rs.getInt("contact_number"),
                     rs.getString("email"),
                     rs.getString("address"),
                     rs.getTimestamp("created_at")
@@ -42,7 +42,7 @@ public class SupplierDAO {
         PreparedStatement ps = connection.prepareStatement(sql);
 
         ps.setString(1, supplier.getName());
-        ps.setString(2, supplier.getContactNumber());
+        ps.setInt(2, supplier.getContactNumber());
         ps.setString(3, supplier.getEmail());
         ps.setString(4, supplier.getAddress());
 
@@ -78,7 +78,7 @@ public class SupplierDAO {
             Supplier supplier = new Supplier(
                     rs.getInt("supplier_id"),
                     rs.getString("name"),
-                    rs.getString("contact_number"),
+                    rs.getInt("contact_number"),
                     rs.getString("email"),
                     rs.getString("address"),
                     rs.getTimestamp("created_at")
@@ -96,7 +96,7 @@ public class SupplierDAO {
         PreparedStatement ps = connection.prepareStatement(sql);
 
         ps.setString(1, supplier.getName());
-        ps.setString(2, supplier.getContactNumber());
+        ps.setInt(2, supplier.getContactNumber());
         ps.setString(3, supplier.getEmail());
         ps.setString(4, supplier.getAddress());
         ps.setInt(5, supplier.getSupplier_id());

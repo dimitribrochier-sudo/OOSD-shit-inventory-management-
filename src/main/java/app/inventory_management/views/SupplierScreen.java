@@ -172,7 +172,6 @@ public class SupplierScreen extends JFrame {
 
             //need the phone number check
             int phone;
-            String email;
 
             if (name.isEmpty() || phonetext.isEmpty() ||
                     emailtext.isEmpty() || address.isEmpty()) {
@@ -181,9 +180,44 @@ public class SupplierScreen extends JFrame {
                 return;
             }
 
+            try{
+                phone = Integer.parseInt(phonetext);
+            }   catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Contact Number must be a valid number.");
+                return;
+            }
+
+            if (phonetext.length() != 8 ) {
+                JOptionPane.showMessageDialog(dialog, "Contact is not 8 digits long!");
+                return;
+            }
+
+            if (!phonetext.startsWith("5")) {
+                JOptionPane.showMessageDialog(dialog, "Contact should start with 5 !");
+                return;
+            }
+
+            if (phone < 0) {
+                JOptionPane.showMessageDialog(dialog, "Contact Number cannot be negative!");
+                return;
+            }
+
+            if (name.length() < 2 || name.length() > 50){
+                JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
+                return;
+            }
 
 
-            Supplier supplier = new Supplier(name,phone,email,address);
+            //this is basically every possible ooptions of an email for most cases.
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                    "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!emailtext.matches(emailRegex)) {
+                JOptionPane.showMessageDialog(dialog, "Invalid Email!");
+                return;
+            }
+
+
+            Supplier supplier = new Supplier(name,phone,emailtext,address);
             //check for null
             if(controller.addSupplier(supplier) != null){
                 JOptionPane.showMessageDialog(dialog, "Supplier added successfully!");
@@ -267,16 +301,63 @@ public class SupplierScreen extends JFrame {
         updateButton.addActionListener(e -> {
 
             String newName = nameField.getText().trim();
-            String newPhone = phoneField.getText().trim();
+            String newPhonetext = phoneField.getText().trim();
             String newEmail = emailField.getText().trim();
             String newAddress = addressField.getText().trim();
 
-            if (newName.isEmpty() || newPhone.isEmpty() ||
+            if (newName.isEmpty() || newPhonetext.isEmpty() ||
                     newEmail.isEmpty() || newAddress.isEmpty()) {
 
                 JOptionPane.showMessageDialog(dialog, "All fields are required!");
                 return;
             }
+
+            //need the phone number check
+            int newPhone;
+
+            if (name.isEmpty() || newPhonetext.isEmpty() ||
+                    newEmail.isEmpty() || address.isEmpty()) {
+
+                JOptionPane.showMessageDialog(dialog, "All fields are required!");
+                return;
+            }
+
+            try{
+                newPhone = Integer.parseInt(newPhonetext);
+            }   catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Contact Number must be a valid number.");
+                return;
+            }
+
+            if (newPhonetext.length() != 8 ) {
+                JOptionPane.showMessageDialog(dialog, "Contact is not 8 digits long!");
+                return;
+            }
+
+            if (!newPhonetext.startsWith("5")) {
+                JOptionPane.showMessageDialog(dialog, "Contact should start with 5 !");
+                return;
+            }
+
+            if (newPhone < 0) {
+                JOptionPane.showMessageDialog(dialog, "Contact Number cannot be negative!");
+                return;
+            }
+
+            if (name.length() < 2 || name.length() > 50){
+                JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
+                return;
+            }
+
+
+            //this is basically every possible ooptions of an email for most cases.
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                    "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!newEmail.matches(emailRegex)) {
+                JOptionPane.showMessageDialog(dialog, "Invalid Email!");
+                return;
+            }
+
 
             Supplier editedSupplier = new Supplier(
                     supplierId,
