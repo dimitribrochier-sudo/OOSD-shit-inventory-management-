@@ -23,6 +23,7 @@ public class MakeOrderScreen extends JFrame {
     JTextField total;
 
     JButton confirmBtn;
+    JButton returnBtn;
 
     OrderController orderController = new OrderController();
     ProductController productController = new ProductController();
@@ -34,7 +35,7 @@ public class MakeOrderScreen extends JFrame {
 
     public MakeOrderScreen(){
         setTitle("Orders");
-        setSize(400,300);
+        setSize(400,350);
         setLayout(null);
         setResizable(false);
         //adding labels objects to fields and combos
@@ -102,6 +103,9 @@ public class MakeOrderScreen extends JFrame {
         confirmBtn = new JButton("Confirm");
         confirmBtn.setBounds(150,210,100,30);
 
+        returnBtn = new JButton("Return");
+        returnBtn.setBounds(150, 245, 100, 30);
+
         // Add components
         add(productDropdown);
         add(productName);
@@ -110,6 +114,7 @@ public class MakeOrderScreen extends JFrame {
         add(price);
         add(total);
         add(confirmBtn);
+        add(returnBtn);
 
         add(productLabel);
         add(productNameLabel);
@@ -120,6 +125,11 @@ public class MakeOrderScreen extends JFrame {
 
         confirmBtn.addActionListener(e -> {
             saveOrder();
+            new OrderScreen();
+            dispose();
+        });
+
+        returnBtn.addActionListener(e -> {
             new OrderScreen();
             dispose();
         });

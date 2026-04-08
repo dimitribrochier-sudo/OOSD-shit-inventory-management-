@@ -3,6 +3,7 @@ package app.inventory_management.views;
 import java.util.List;
 import app.inventory_management.models.Product;
 import app.inventory_management.controllers.ProductController;
+import app.inventory_management.controllers.SupplierController;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,6 +15,7 @@ public class ProductScreen extends JFrame {
 
     //creating a productController
     ProductController controller = new ProductController();
+    SupplierController suppController = new SupplierController();
 
     public ProductScreen(){
         setTitle("Products");
@@ -176,7 +178,7 @@ public class ProductScreen extends JFrame {
 
     private void addProduct(){
         //create dialog
-        JDialog dialog = new JDialog(this, "Add User", true);
+        JDialog dialog = new JDialog(this, "Add Product", true);
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
@@ -241,6 +243,12 @@ public class ProductScreen extends JFrame {
             //converting categoryEnum to a string
             Product.Category categoryEnum;
 
+            if (name.isEmpty() || category.isEmpty() || unitPriceText.isEmpty() ||
+                    currentStockText.isEmpty() || reorderLevelText.isEmpty() || supplierIdText.isEmpty()) {
+                JOptionPane.showMessageDialog(dialog, "All fields are required!");
+                return;
+            }
+
             try{
                 categoryEnum = Product.Category.valueOf(category.toUpperCase());
             }   catch(IllegalArgumentException ex) {
@@ -248,19 +256,53 @@ public class ProductScreen extends JFrame {
                 return;
             }
 
-            if (name.isEmpty() || category.isEmpty() || unitPriceText.isEmpty() ||
-                    currentStockText.isEmpty() || reorderLevelText.isEmpty() || supplierIdText.isEmpty()) {
-                JOptionPane.showMessageDialog(dialog, "All fields are required!");
+            double unitPrice;
+            int currentStock, reorderLevel, supplierId;
+
+            try{
+                unitPrice = Double.parseDouble(unitPriceText);
+            }   catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Unit Price must be a valid number.");
+                return;
+            }
+            try{
+                currentStock = Integer.parseInt(currentStockText);
+                reorderLevel = Integer.parseInt(reorderLevelText);
+                supplierId = Integer.parseInt(supplierIdText);
+            } catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Stock, Reorder Level, and Supplier ID must be valid integers!");
+                return;
+            }
+
+            if (unitPrice < 0) {
+                JOptionPane.showMessageDialog(dialog, "Unit Price cannot be negative!");
+                return;
+            }
+            if (currentStock < 0) {
+                JOptionPane.showMessageDialog(dialog, "Current Stock cannot be negative!");
+                return;
+            }
+            if (reorderLevel < 0) {
+                JOptionPane.showMessageDialog(dialog, "Reorder Level cannot be negative!");
+                return;
+            }
+
+            if (suppController.findSupplier(supplierId) == null) {
+                JOptionPane.showMessageDialog(dialog, "Supplier doesn't exist, Check Supplier Table");
+            }
+
+            if (name.length() < 2 || name.length() > 100){
+                JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
                 return;
             }
 
             Product newProduct = new Product(
                     name,
                     categoryEnum,
-                    Double.parseDouble(unitPriceText),
-                    Integer.parseInt(currentStockText),
-                    Integer.parseInt(reorderLevelText),
-                    Integer.parseInt(supplierIdText));
+                    unitPrice,
+                    currentStock,
+                    reorderLevel,
+                    supplierId);
 
             controller.addProduct(newProduct);
 
@@ -271,7 +313,8 @@ public class ProductScreen extends JFrame {
 
         });
         dialog.setVisible(true);
-    }
+        }
+
     private void editProduct() {
 
         int selectedRow = table.getSelectedRow();

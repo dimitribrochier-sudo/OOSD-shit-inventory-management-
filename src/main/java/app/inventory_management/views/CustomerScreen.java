@@ -179,7 +179,7 @@ public class CustomerScreen extends JFrame {
                         newAddress);
 
                 controller.editCustomer(editedCustomer);
-                JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
+                JOptionPane.showMessageDialog(dialog, "Customer updated successfully!");
                 dialog.dispose();
 
                 //refresh table
@@ -282,7 +282,7 @@ public class CustomerScreen extends JFrame {
                     foundCustomer.getTimestamp()
             });
         }else {
-            JOptionPane.showMessageDialog(this, "Product not found");
+            JOptionPane.showMessageDialog(this, "Customer not found");
         }
     }
 

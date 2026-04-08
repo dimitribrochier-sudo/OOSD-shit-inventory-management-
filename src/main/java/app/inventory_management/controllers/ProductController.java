@@ -1,7 +1,7 @@
 package app.inventory_management.controllers;
 
 import app.inventory_management.models.Product;
-import app.inventory_management.repository.ProductDAO;
+import app.inventory_management.DAO.ProductDAO;
 
 import java.sql.SQLException;
 import java.util.List;

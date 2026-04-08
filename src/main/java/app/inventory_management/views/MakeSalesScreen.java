@@ -24,6 +24,7 @@ public class MakeSalesScreen extends JFrame {
     JTextField total;
 
     JButton confirmBtn;
+    JButton returnBtn;
 
     SaleController saleController = new SaleController();
     ProductController productController = new ProductController();
@@ -36,7 +37,7 @@ public class MakeSalesScreen extends JFrame {
 
     public MakeSalesScreen(){
         setTitle("Sales");
-        setSize(400,300);
+        setSize(400,350);
         setLayout(null);
         setResizable(false);
 
@@ -108,6 +109,9 @@ public class MakeSalesScreen extends JFrame {
         confirmBtn = new JButton("Confirm");
         confirmBtn.setBounds(150,210,100,30);
 
+        returnBtn = new JButton("Return");
+        returnBtn.setBounds(150, 245, 100, 30);
+
         //adding to screen the fields
         add(productDropdown);
         add(productName);
@@ -116,6 +120,7 @@ public class MakeSalesScreen extends JFrame {
         add(price);
         add(total);
         add(confirmBtn);
+        add(returnBtn);
 
         //adding labels
         add(productLabel);
@@ -132,6 +137,10 @@ public class MakeSalesScreen extends JFrame {
             dispose();
         });
 
+        returnBtn.addActionListener(e -> {
+            new OrderScreen();
+            dispose();
+        });
 
         loadDropDown();
         setVisible(true);
