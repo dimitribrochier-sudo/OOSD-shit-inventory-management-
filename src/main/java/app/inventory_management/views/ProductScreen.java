@@ -445,6 +445,7 @@ public class ProductScreen extends JFrame {
 
             if (suppController.findSupplier(newSupplierId) == null) {
                 JOptionPane.showMessageDialog(dialog, "Supplier doesn't exist, Check Supplier Table");
+                return;
             }
 
             if (newName.length() < 2 || newName.length() > 100){
