@@ -8,6 +8,7 @@ import app.inventory_management.utils.Calculator;
 import app.inventory_management.controllers.SupplierController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -169,8 +170,22 @@ public class MakeOrderScreen extends JFrame {
 
         int productId = Integer.parseInt(productDropdown.getSelectedItem().toString());
         int supplierId = Integer.parseInt(supplierDropdown.getSelectedItem().toString());
-        int qty = Integer.parseInt(quantity.getText());
+        String qtyText = quantity.getText().trim();
         double pr = Double.parseDouble(price.getText());
+
+        int qty;
+
+        try{
+            qty = Integer.parseInt(qtyText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Only numbers!" );
+            return;
+        }
+
+        if(qty < 0){
+            JOptionPane.showMessageDialog(this, "Only Positive values needed!");
+            return;
+        }
 
         orderController.createOrder(productId, supplierId, qty, pr);
 

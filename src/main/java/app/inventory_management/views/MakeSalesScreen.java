@@ -179,8 +179,22 @@ public class MakeSalesScreen extends JFrame {
 
         int productId = Integer.parseInt(productDropdown.getSelectedItem().toString());
         int customerId = Integer.parseInt(customerDropdown.getSelectedItem().toString());
-        int qty = Integer.parseInt(quantity.getText());
+        String qtyText = quantity.getText();
         double pr = Double.parseDouble(price.getText());
+
+        int qty;
+
+        try{
+            qty = Integer.parseInt(qtyText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Only numbers!" );
+            return;
+        }
+
+        if(qty < 0){
+            JOptionPane.showMessageDialog(this, "Only Positive values needed!");
+            return;
+        }
 
         saleController.createSale(productId, customerId, qty, pr);
 

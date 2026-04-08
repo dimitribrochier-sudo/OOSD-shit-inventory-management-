@@ -166,16 +166,22 @@ public class SupplierScreen extends JFrame {
 
         addButton.addActionListener(e -> {
             String name = nameField.getText().trim();
-            String phone = phoneField.getText().trim();
-            String email = emailField.getText().trim();
+            String phonetext = phoneField.getText().trim();
+            String emailtext = emailField.getText().trim();
             String address = addressField.getText().trim();
 
-            if (name.isEmpty() || phone.isEmpty() ||
-                    email.isEmpty() || address.isEmpty()) {
+            //need the phone number check
+            int phone;
+            String email;
+
+            if (name.isEmpty() || phonetext.isEmpty() ||
+                    emailtext.isEmpty() || address.isEmpty()) {
 
                 JOptionPane.showMessageDialog(dialog, "All fields are required!");
                 return;
             }
+
+
 
             Supplier supplier = new Supplier(name,phone,email,address);
             //check for null
