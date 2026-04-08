@@ -2,8 +2,6 @@ package app.inventory_management.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
-import java.util.HashMap;
 import app.inventory_management.utils.BarChartPanel;
 import app.inventory_management.controllers.SaleController;
 

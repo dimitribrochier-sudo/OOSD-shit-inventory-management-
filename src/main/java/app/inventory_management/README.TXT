@@ -44,9 +44,6 @@ TODOLIST = Review code to understand it,
             saleTracking(manager special)
 
 
-
-
-
 NEW ROLES(
     Manager(overseers employers and suppliers, report)
     Admin(god)

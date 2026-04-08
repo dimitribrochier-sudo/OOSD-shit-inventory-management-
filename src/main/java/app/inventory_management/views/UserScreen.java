@@ -33,8 +33,8 @@ public class UserScreen extends  JFrame{
         // Adding Columns names
         model.addColumn("User ID");
         model.addColumn("Username");
-        model.addColumn("Password");
         model.addColumn("Full Name");
+        model.addColumn("Password");
         model.addColumn("Role ID");
         model.addColumn("Created At");
 
