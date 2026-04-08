@@ -119,7 +119,7 @@ public class UserScreen extends  JFrame{
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
-        dialog.setVisible(true);
+
 
         // title add user
         JLabel titleLabel = new JLabel("ADD USER", SwingConstants.CENTER);
@@ -187,6 +187,8 @@ public class UserScreen extends  JFrame{
             model.setRowCount(0);
             loadUsers();
         });
+        
+        dialog.setVisible(true);
     }
 
     private void findUserById(){
