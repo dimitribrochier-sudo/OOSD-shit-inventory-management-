@@ -36,7 +36,7 @@ public class MakeOrderScreen extends JFrame {
         setTitle("Orders");
         setSize(400,300);
         setLayout(null);
-
+        setResizable(false);
         //adding labels objects to fields and combos
 
         JLabel productLabel;

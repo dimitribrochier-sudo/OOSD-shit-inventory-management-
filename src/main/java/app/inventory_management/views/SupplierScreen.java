@@ -26,6 +26,7 @@ public class SupplierScreen extends JFrame {
         setSize(700, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
         model = new DefaultTableModel();
         table = new JTable(model);

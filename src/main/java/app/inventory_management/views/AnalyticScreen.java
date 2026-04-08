@@ -2,8 +2,6 @@ package app.inventory_management.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
-import java.util.HashMap;
 import app.inventory_management.utils.BarChartPanel;
 import app.inventory_management.controllers.SaleController;
 
@@ -18,7 +16,7 @@ public class AnalyticScreen extends JFrame{
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        setResizable(false);
         setLayout(new BorderLayout());
 
         //TEH Summary of sales ig
