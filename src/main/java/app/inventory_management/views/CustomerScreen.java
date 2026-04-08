@@ -161,23 +161,54 @@ public class CustomerScreen extends JFrame {
 
         //update
         updateButton.addActionListener(e -> {
-
+            //edit for edit customer START
             try{
                 String newName = nameField.getText().trim();
-                String newContact = contactField.getText().trim();
+                String newContactText = contactField.getText().trim();
                 String newAddress = addressField.getText().trim();
 
-                if (newName.isEmpty()) {
-                    JOptionPane.showMessageDialog(dialog, "Name is required!");
+                if (newName.isEmpty() || newContactText.isEmpty() || newAddress.isEmpty()) {
+                    JOptionPane.showMessageDialog(dialog, "All fields are required!");
                     return;
                 }
 
-                Customer editedCustomer = new Customer(
-                        customerId,
-                        newName,
-                        Integer.parseInt(newContact),
-                        newAddress);
+                int newContact;
 
+                try{
+                    newContact = Integer.parseInt(newContactText);
+                }   catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(dialog, "Contact Number must be a valid number.");
+                    return;
+                }
+
+                if (newContactText.length() != 8 ) {
+                    JOptionPane.showMessageDialog(dialog, "Contact is not 8 digits long!");
+                    return;
+                }
+
+                if (!newContactText.startsWith("5")) {
+                    JOptionPane.showMessageDialog(dialog, "Contact should start with 5 !");
+                    return;
+                }
+
+                if (newContact < 0) {
+                    JOptionPane.showMessageDialog(dialog, "Contact Number cannot be negative!");
+                    return;
+                }
+
+
+                if (name.length() < 2 || name.length() > 50){
+                    JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
+                    return;
+                }
+
+
+
+                Customer editedCustomer = new Customer(
+                        newName,
+                        newContact,
+                        newAddress);
+                //edit for edit customer END
                 controller.editCustomer(editedCustomer);
                 JOptionPane.showMessageDialog(dialog, "Customer updated successfully!");
                 dialog.dispose();
@@ -238,18 +269,55 @@ public class CustomerScreen extends JFrame {
         saveButton.addActionListener(e -> {
 
             String name = nameField.getText().trim();
-            String contact = contactField.getText().trim();
+            String contactText = contactField.getText().trim();
             String address = addressField.getText().trim();
 
-            if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(dialog, "Name is required!");
+            //Edit validation start
+            if (name.isEmpty() || contactText.isEmpty() || address.isEmpty()) {
+                JOptionPane.showMessageDialog(dialog, "All fields are required!");
                 return;
             }
 
-            Customer newCustomer = new Customer(name, Integer.parseInt(contact), address);
+
+            int contact;
+
+            try{
+                contact = Integer.parseInt(contactText);
+            }   catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Contact Number must be a valid number.");
+                return;
+            }
+
+            if (contactText.length() != 8 ) {
+                JOptionPane.showMessageDialog(dialog, "Contact is not 8 digits long!");
+                return;
+            }
+
+            if (!contactText.startsWith("5")) {
+                JOptionPane.showMessageDialog(dialog, "Contact should start with 5 !");
+                return;
+            }
+
+            if (contact < 0) {
+                JOptionPane.showMessageDialog(dialog, "Contact Number cannot be negative!");
+                return;
+            }
+
+
+            if (name.length() < 2 || name.length() > 50){
+                JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
+                return;
+            }
+
+
+
+            Customer newCustomer = new Customer(
+                    name,
+                    contact,
+                    address);
 
             controller.addCustomer(newCustomer);
-
+            //edit validation end
             JOptionPane.showMessageDialog(dialog, "CustomerScreen added successfully!");
             dialog.dispose();
 
