@@ -1,4 +1,4 @@
-package app.inventory_management.repository;
+package app.inventory_management.DAO;
 
 import java.sql.*;
 import java.util.ArrayList;

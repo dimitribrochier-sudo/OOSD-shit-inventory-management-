@@ -1,4 +1,4 @@
-package app.inventory_management.repository;
+package app.inventory_management.DAO;
 
 import app.inventory_management.config.DBConnection;
 import app.inventory_management.models.Sale;

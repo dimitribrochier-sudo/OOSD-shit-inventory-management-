@@ -1,7 +1,7 @@
 package app.inventory_management.controllers;
 
 import app.inventory_management.models.User;
-import app.inventory_management.repository.LoginDAO;
+import app.inventory_management.DAO.LoginDAO;
 
 import java.sql.SQLException;
 

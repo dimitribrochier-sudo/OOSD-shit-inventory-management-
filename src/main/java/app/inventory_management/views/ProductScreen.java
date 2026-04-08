@@ -176,7 +176,7 @@ public class ProductScreen extends JFrame {
 
     private void addProduct(){
         //create dialog
-        JDialog dialog = new JDialog(this, "Add User", true);
+        JDialog dialog = new JDialog(this, "Add Product", true);
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
