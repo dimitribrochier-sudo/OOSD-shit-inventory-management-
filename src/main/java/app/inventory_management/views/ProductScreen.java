@@ -388,7 +388,7 @@ public class ProductScreen extends JFrame {
 
         // Update button
         updateButton.addActionListener(e -> {
-
+            // edited editProduct START
             String newName = nameField.getText().trim();
             String newCategory = categoryField.getText().trim();
             String unitPriceText = unitPriceField.getText().trim();
@@ -399,28 +399,60 @@ public class ProductScreen extends JFrame {
             //converting categoryEnum to a string
             Product.Category categoryEnum;
 
-            try {
-                categoryEnum = Product.Category.valueOf(newCategory.toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(dialog, "Invalid category!");
-                return;
-            }
-
             if (newName.isEmpty() || newCategory.isEmpty() || unitPriceText.isEmpty() ||
                     currentStockText.isEmpty() || reorderLevelText.isEmpty() || supplierIdText.isEmpty()) {
-
                 JOptionPane.showMessageDialog(dialog, "All fields are required!");
                 return;
             }
 
             try{
-                double newUnitPrice = Double.parseDouble(unitPriceText);
-                int newCurrentStock = Integer.parseInt(currentStockText);
-                int newReorderLevel = Integer.parseInt(reorderLevelText);
-                int newSupplierId = Integer.parseInt(supplierIdText);
+                categoryEnum = Product.Category.valueOf(newCategory.toUpperCase());
+            }   catch(IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, "Invalid category!");
+                return;
+            }
+
+            double newUnitPrice;
+            int newCurrentStock, newReorderLevel, newSupplierId;
+
+            try{
+                newUnitPrice = Double.parseDouble(unitPriceText);
+            }   catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Unit Price must be a valid number.");
+                return;
+            }
+            try{
+                newCurrentStock = Integer.parseInt(currentStockText);
+                newReorderLevel = Integer.parseInt(reorderLevelText);
+                newSupplierId = Integer.parseInt(supplierIdText);
+            } catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(dialog, "Stock, Reorder Level, and Supplier ID must be valid integers!");
+                return;
+            }
+
+            if (newUnitPrice < 0) {
+                JOptionPane.showMessageDialog(dialog, "Unit Price cannot be negative!");
+                return;
+            }
+            if (newCurrentStock < 0) {
+                JOptionPane.showMessageDialog(dialog, "Current Stock cannot be negative!");
+                return;
+            }
+            if (newReorderLevel < 0) {
+                JOptionPane.showMessageDialog(dialog, "Reorder Level cannot be negative!");
+                return;
+            }
+
+            if (suppController.findSupplier(newSupplierId) == null) {
+                JOptionPane.showMessageDialog(dialog, "Supplier doesn't exist, Check Supplier Table");
+            }
+
+            if (newName.length() < 2 || newName.length() > 100){
+                JOptionPane.showMessageDialog(dialog, "Name too long or too Short!");
+                return;
+            }
 
             Product editedProduct = new Product(
-                    productId,
                     newName,
                     categoryEnum,
                     newUnitPrice,
@@ -428,7 +460,7 @@ public class ProductScreen extends JFrame {
                     newReorderLevel,
                     newSupplierId
             );
-
+            //edited edit product END
             controller.editProduct(editedProduct);
             JOptionPane.showMessageDialog(dialog, "Product updated successfully!");
             dialog.dispose();
@@ -437,9 +469,6 @@ public class ProductScreen extends JFrame {
             model.setRowCount(0);
             loadProducts();
 
-            }catch(NumberFormatException ex){
-                JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for price/stock fields!");
-            }
         });
 
         dialog.setVisible(true);
