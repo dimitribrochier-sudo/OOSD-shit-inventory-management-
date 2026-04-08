@@ -19,6 +19,8 @@ public class AnalyticScreen extends JFrame{
         setResizable(false);
         setLayout(new BorderLayout());
 
+        this.getContentPane().setBackground(new Color(15, 23, 42));
+
         //TEH Summary of sales ig
         add(summaryPanel(), BorderLayout.NORTH);
 
@@ -44,6 +46,8 @@ public class AnalyticScreen extends JFrame{
         JPanel panel = new JPanel(new GridLayout(1, 4, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        panel.setOpaque(false);
+
         //adding them heh
         panel.add(card("Total sales", totalSales));
         panel.add(card("Orders", totalOrders));
@@ -56,13 +60,15 @@ public class AnalyticScreen extends JFrame{
     private JPanel card(String title, String value){
         //Makin cards
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createLineBorder(Color.red));
+        panel.setBackground(new Color(30, 41, 59));
+        panel.setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85), 1));
 
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(148, 163, 184));
         JLabel valueLabel = new JLabel(value, SwingConstants.CENTER);
 
-        valueLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
+        valueLabel.setForeground(Color.WHITE);
+        valueLabel.setFont(new Font("Arial", Font.BOLD, 20));
         //adding the cards now
         panel.add(titleLabel,BorderLayout.NORTH);
         panel.add(valueLabel, BorderLayout.CENTER);
@@ -72,8 +78,12 @@ public class AnalyticScreen extends JFrame{
 
     private JPanel bottomPanel() {
         JPanel panel = new JPanel();
+        panel.setBackground(new Color(15, 23, 42));
 
         JButton backBtn = new JButton("Back");
+        backBtn.setBackground(new Color(30, 41, 59));
+        backBtn.setForeground(Color.WHITE);
+        backBtn.setFocusPainted(false);
 
         backBtn.addActionListener(e -> {
             dispose();// closes this screen

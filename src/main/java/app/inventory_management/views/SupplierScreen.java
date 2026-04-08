@@ -28,8 +28,20 @@ public class SupplierScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
+        this.getContentPane().setBackground(new Color(15, 23, 42));//chnaged bgcolor
+
         model = new DefaultTableModel();
         table = new JTable(model);
+         //for table color
+        table.setBackground(new Color(30, 41, 59));
+        table.setForeground(new Color(241, 245, 249));
+        table.setGridColor(new Color(51, 65, 85));
+        table.setSelectionBackground(new Color(51, 65, 85));
+        table.setSelectionForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.getTableHeader().setBackground(new Color(15, 23, 42));
+        table.getTableHeader().setForeground(new Color(241, 245, 249));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
 
         model.addColumn("Supplier ID");
         model.addColumn("Name");
@@ -42,16 +54,25 @@ public class SupplierScreen extends JFrame {
         loadSuppliers();
 
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(new Color(15, 23, 42));// chnaged
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
         //All buttons
         //creating a main top container to separates left and right buttons
         JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setBackground(new Color(15, 23, 42));//chnaged
 
         //Everything on the left side
         JPanel leftPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
+        leftPanel.setBackground(new Color(15, 23, 42));//chnaged
+        //added this line
+        JLabel findLabel = new JLabel("Find By Supplier ID:");
+        //chnaged font color
+        findLabel.setForeground(new Color(241, 245, 249));
+        leftPanel.add(findLabel);
+
         //find product by id
-        leftPanel.add(new JLabel("Find By Supplier ID:"));
         idField = new JTextField(8);
         leftPanel.add(idField);
 
@@ -87,9 +108,11 @@ public class SupplierScreen extends JFrame {
             dispose();
             new DashboardScreen();
         });
+        //added separate panel to chnage bg cl
 
         //creating the right container
         JPanel rightPanel= new JPanel((new FlowLayout(FlowLayout.RIGHT)));
+        rightPanel.setBackground(new Color(15, 23, 42));
 
         //delete button
         JButton deleteButton = new JButton("Delete");
@@ -126,14 +149,18 @@ public class SupplierScreen extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
+
         // Title
         JLabel titleLabel = new JLabel("ADD SUPPLIER", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField();
@@ -233,6 +260,18 @@ public class SupplierScreen extends JFrame {
             loadSuppliers();
         });
 
+        for (Component comp : formPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setForeground(new Color(241, 245, 249));
+            } else if (comp instanceof JTextField) {
+                comp.setBackground(new Color(30, 41, 59));
+                comp.setForeground(Color.WHITE);
+
+                ((JTextField) comp).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
+
+
         //visible
         dialog.setVisible(true);
     }
@@ -255,6 +294,7 @@ public class SupplierScreen extends JFrame {
 
         // Create dialog
         JDialog dialog = new JDialog(this, "Edit Supplier", true);
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
@@ -262,11 +302,13 @@ public class SupplierScreen extends JFrame {
         // Title
         JLabel titleLabel = new JLabel("EDIT SUPPLIER", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField(name);
@@ -375,6 +417,17 @@ public class SupplierScreen extends JFrame {
             model.setRowCount(0);
             loadSuppliers();
         });
+        for (Component comp : formPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setForeground(new Color(241, 245, 249));
+            } else if (comp instanceof JTextField) {
+                comp.setBackground(new Color(30, 41, 59));
+                comp.setForeground(Color.WHITE);
+
+                ((JTextField) comp).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
+
         //dialogvisible
         dialog.setVisible(true);
     }
