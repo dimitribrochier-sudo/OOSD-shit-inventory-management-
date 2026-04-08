@@ -80,12 +80,6 @@ public class UserScreen extends  JFrame{
         //creating the right container
         JPanel rightPanel=new JPanel((new FlowLayout(FlowLayout.RIGHT)));
 
-        //deleting a row
-        //tried to put a bin icon but it does not seem to fit in correctly
-         /* ImageIcon binIcon= new ImageIcon("C:\\Users\\i\\Documents\\Inventory_Management\\src\\main\\java\\org\\example\\resoures\\images\\bin-svgrepo-com.png");
-        Image img = binIcon.getImage();
-        Image scaledImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        binIcon = new ImageIcon(scaledImg); */
 
         //delete button
         JButton deleteButton = new JButton("Delete");
@@ -187,7 +181,7 @@ public class UserScreen extends  JFrame{
             model.setRowCount(0);
             loadUsers();
         });
-        
+
         dialog.setVisible(true);
     }
 

@@ -25,7 +25,7 @@ public class LoginScreen implements ActionListener{
 
     JButton loginButton = new JButton("LOGIN");
 
-    JButton forgotPasswordButton = new JButton("FORGOT PASSWORD");
+    //JButton forgotPasswordButton = new JButton("FORGOT PASSWORD");
 
     JCheckBox showPassword = new JCheckBox("Show Password");
 
@@ -37,7 +37,6 @@ public class LoginScreen implements ActionListener{
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(null);
         frame.setResizable(false);
-        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getRootPane().setDefaultButton(loginButton);
 
@@ -66,9 +65,9 @@ public class LoginScreen implements ActionListener{
         loginButton.setFocusable(false);
 
 
-        forgotPasswordButton.setBounds(100, 340, 180, 35);
-        forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 13));
-        forgotPasswordButton.setFocusable(false);
+        //forgotPasswordButton.setBounds(100, 340, 180, 35);
+        //forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 13));
+        //forgotPasswordButton.setFocusable(false);
 
         resetButton.setBounds(100,400,180,35);
         resetButton.setFont(new Font("Arial", Font.BOLD, 15));
@@ -81,7 +80,7 @@ public class LoginScreen implements ActionListener{
         frame.add(passwordField);
         frame.add(showPassword);
         frame.add(loginButton);
-        frame.add(forgotPasswordButton);
+        //frame.add(forgotPasswordButton);
         frame.add(resetButton);
 
 
@@ -89,9 +88,11 @@ public class LoginScreen implements ActionListener{
 
         showPassword.addActionListener(this);
 
-        forgotPasswordButton.addActionListener(this);
+        //forgotPasswordButton.addActionListener(this);
 
         resetButton.addActionListener(this);
+
+        frame.setVisible(true);
 
     }
 
@@ -136,10 +137,10 @@ public class LoginScreen implements ActionListener{
 
         //code for forget password --> still thibking on what kind of method to implement
 
-        if (e.getSource() == forgotPasswordButton){
-            JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!");
+        //if (e.getSource() == forgotPasswordButton){
+        //    JOptionPane.showMessageDialog(null, "Well Bro, shit hasn't been implemented yet!");
 
-        }
+        //}
     }
 
 
