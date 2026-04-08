@@ -168,7 +168,12 @@ public class UserScreen extends  JFrame{
                 JOptionPane.showMessageDialog(dialog, "All fields are required!");
                 return;
             }
-
+            //check for roleId
+            if (!role.equals("1") && !role.equals("2")) {
+                JOptionPane.showMessageDialog(dialog, "Incorrect RoleId. Use 1 or 2");
+                return;
+            }
+            //end of check
             User newUser = new User(username, password, fullName, Integer.parseInt(role));
 
             controller.addUser(newUser);

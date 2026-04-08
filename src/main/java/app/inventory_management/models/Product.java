@@ -12,7 +12,8 @@ public class Product {
     public enum Category{
         ELECTRONICS,
         ACCESSORIES,
-        STORAGE
+        STORAGE,
+        PC_COMPONENTS
     }
 
     //this one is used to add it to the database
