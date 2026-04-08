@@ -9,6 +9,7 @@ import app.inventory_management.controllers.CustomerController;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class MakeSalesScreen extends JFrame {
         setSize(400,300);
         setLayout(null);
         setResizable(false);
+
+        this.getContentPane().setBackground(new Color(15, 23, 42));
 
         //adding labels objects to fields and combos
 
@@ -134,6 +137,21 @@ public class MakeSalesScreen extends JFrame {
 
 
         loadDropDown();
+
+        this.getContentPane().setBackground(new Color(15, 23, 42));
+
+        //added
+        for (Component c : this.getContentPane().getComponents()) {
+            if (c instanceof JLabel) {
+                c.setForeground(new Color(241, 245, 249));
+            }
+            if (c instanceof JTextField) {
+                c.setBackground(new Color(30, 41, 59));
+                c.setForeground(Color.WHITE);
+
+                ((JTextField) c).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
         setVisible(true);
 
     }

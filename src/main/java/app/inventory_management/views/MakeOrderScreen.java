@@ -8,6 +8,7 @@ import app.inventory_management.utils.Calculator;
 import app.inventory_management.controllers.SupplierController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class MakeOrderScreen extends JFrame {
         setLayout(null);
         setResizable(false);
         //adding labels objects to fields and combos
+
+        this.getContentPane().setBackground(new Color(15, 23, 42));
 
         JLabel productLabel;
         JLabel productNameLabel;
@@ -123,6 +126,29 @@ public class MakeOrderScreen extends JFrame {
             new OrderScreen();
             dispose();
         });
+
+        // 2. THE STYLING LOOP
+        // Run this at the end of the constructor, before setVisible(true)
+        for (java.awt.Component c : this.getContentPane().getComponents()) {
+
+            // Make Labels White
+            if (c instanceof JLabel) {
+                c.setForeground(new Color(241, 245, 249));
+            }
+
+            // Make TextFields Deep Slate with White text
+            if (c instanceof JTextField) {
+                c.setBackground(new Color(30, 41, 59));
+                c.setForeground(Color.WHITE);
+                ((JTextField) c).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+
+            // Make Dropdowns match the theme
+            if (c instanceof JComboBox) {
+                c.setBackground(new Color(30, 41, 59));
+                c.setForeground(Color.WHITE);
+            }
+        }
 
         loadDropDown();
         setVisible(true);

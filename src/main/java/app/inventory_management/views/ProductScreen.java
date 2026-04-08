@@ -22,9 +22,22 @@ public class ProductScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
+        this.getContentPane().setBackground(new Color(15, 23, 42));//chnaged bgcolor
+
 
         model = new DefaultTableModel();
         table = new JTable(model);
+
+        //for table color
+        table.setBackground(new Color(30, 41, 59));
+        table.setForeground(new Color(241, 245, 249));
+        table.setGridColor(new Color(51, 65, 85));
+        table.setSelectionBackground(new Color(51, 65, 85));
+        table.setSelectionForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.getTableHeader().setBackground(new Color(15, 23, 42));
+        table.getTableHeader().setForeground(new Color(241, 245, 249));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
 
         model.addColumn("Product ID");
         model.addColumn("Name");
@@ -39,18 +52,27 @@ public class ProductScreen extends JFrame {
 
 
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(new Color(15, 23, 42));//changed
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());//chnaged
         add(scrollPane, BorderLayout.CENTER);
 
         //All buttons
         //creating a main top container to separates left and right buttons
         JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setBackground(new Color(15, 23, 42));//chnaged
 
         //Everything on the left side
-        JPanel leftPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
-        //find product by id
-        leftPanel.add(new JLabel("Find By Product ID:"));
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(new Color(15, 23, 42));
+
+        //chnaged section
+        JLabel findLabel = new JLabel("Find By Product ID:");
+        findLabel.setForeground(new Color(241, 245, 249)); // Set the color to white
+
+        leftPanel.add(findLabel);
         idField = new JTextField(8);
         leftPanel.add(idField);
+
 
         JButton findButton = new JButton("Find");
         findButton.addActionListener(e ->  findProductById());
@@ -73,6 +95,7 @@ public class ProductScreen extends JFrame {
 
         //creating the right container
         JPanel rightPanel=new JPanel((new FlowLayout(FlowLayout.RIGHT)));
+        rightPanel.setBackground(new Color(15, 23, 42));
 
         //delete button
         JButton deleteButton = new JButton("Delete");
@@ -181,15 +204,18 @@ public class ProductScreen extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
 
         // title add product
         JLabel titleLabel = new JLabel("ADD PRODUCT", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         //creating the form
         JPanel formPanel = new JPanel(new GridLayout(7, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField();
@@ -205,7 +231,7 @@ public class ProductScreen extends JFrame {
         formPanel.add(new JLabel("Product Name:"));
         formPanel.add(nameField);
 
-        formPanel.add(new JLabel("Catergory:"));
+        formPanel.add(new JLabel("Category:"));
         formPanel.add(categoryField);
 
         formPanel.add(new JLabel("Unit Price:"));
@@ -270,6 +296,17 @@ public class ProductScreen extends JFrame {
             loadProducts();
 
         });
+        for (Component c : formPanel.getComponents()) {
+            if (c instanceof JLabel) {
+                c.setForeground(new Color(241, 245, 249));
+            }
+
+            if (c instanceof JTextField) {
+                c.setBackground(new Color(30, 41, 59));
+                c.setForeground(Color.WHITE);
+                ((JTextField) c).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
         dialog.setVisible(true);
     }
     private void editProduct() {
@@ -296,15 +333,18 @@ public class ProductScreen extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
 
         // Title
         JLabel titleLabel = new JLabel("EDIT PRODUCT", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(7, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField nameField = new JTextField(name);
@@ -398,6 +438,19 @@ public class ProductScreen extends JFrame {
                 JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for price/stock fields!");
             }
         });
+        for (Component c : formPanel.getComponents()) {
+
+
+            if (c instanceof JLabel) {
+                c.setForeground(new Color(241, 245, 249));
+            }
+
+            if (c instanceof JTextField) {
+                c.setBackground(new Color(30, 41, 59));
+                c.setForeground(Color.WHITE);
+                ((JTextField) c).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
 
         dialog.setVisible(true);
     }

@@ -12,7 +12,7 @@ import app.inventory_management.utils.SessionManager;
 public class LoginScreen implements ActionListener{
 
     //frame title(appears on top left)
-    JFrame frame = new JFrame("LOGIN");
+    JFrame frame = new JFrame("Inventory Management System");
 
     //welcome text
     JLabel titleLabel = new JLabel("WELCOME");
@@ -29,7 +29,7 @@ public class LoginScreen implements ActionListener{
 
     JCheckBox showPassword = new JCheckBox("Show Password");
 
-    JButton resetButton = new JButton("Reset");
+    JButton resetButton = new JButton("RESET FIELDS");
 
     public LoginScreen() {
 
@@ -39,16 +39,20 @@ public class LoginScreen implements ActionListener{
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getRootPane().setDefaultButton(loginButton);
+        frame.getContentPane().setBackground(new Color(15, 23, 42));//changed bgcolor
 
         userLabel.setBounds(40, 120, 100, 50);
         userLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        userLabel.setForeground(new Color(241, 245, 249));//for font color
 
         titleLabel.setBounds(100, 40, 200, 50);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
+        titleLabel.setForeground(new Color(241, 245, 249));//for font color
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         passwordLabel.setBounds(40, 190, 100, 50);
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        passwordLabel.setForeground(new Color(241, 245, 249));//for font color
 
         userTextField.setBounds(180, 135, 150, 25);
         userTextField.setFont(new Font("Arial", Font.BOLD, 15));
@@ -59,6 +63,8 @@ public class LoginScreen implements ActionListener{
         showPassword.setBounds(180, 230, 150, 25);
         showPassword.setFont(new Font("Arial", Font.BOLD, 15));
         showPassword.setFocusable(false);
+        showPassword.setOpaque(false); // changed to transparent
+        showPassword.setForeground(new Color(241, 245, 249)); //for font color
 
         loginButton.setBounds(100, 280, 180, 35);
         loginButton.setFont(new Font("Arial", Font.BOLD, 15));
@@ -69,9 +75,10 @@ public class LoginScreen implements ActionListener{
         //forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 13));
         //forgotPasswordButton.setFocusable(false);
 
-        resetButton.setBounds(100,400,180,35);
+        resetButton.setBounds(100,340,180,35);
         resetButton.setFont(new Font("Arial", Font.BOLD, 15));
         resetButton.setFocusable(false);
+
 
         frame.add(titleLabel);
         frame.add(userLabel);

@@ -27,9 +27,22 @@ public class UserScreen extends  JFrame{
         setVisible(true);
         setResizable(false);
 
+        this.getContentPane().setBackground(new Color(15, 23, 42));//bg color
+        // Sets the color for the entire background of the window
+
+
         //SETTING THE TABLE
         model = new DefaultTableModel();
         table = new JTable(model);
+        table.setBackground(new Color(30, 41, 59));
+        table.setForeground(new Color(241, 245, 249));
+        table.setGridColor(new Color(51, 65, 85));
+        table.setSelectionBackground(new Color(51, 65, 85));
+        table.setSelectionForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.getTableHeader().setBackground(new Color(15, 23, 42));
+        table.getTableHeader().setForeground(new Color(241, 245, 249));
+        table.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
 
         // Adding Columns names
         model.addColumn("User ID");
@@ -44,6 +57,8 @@ public class UserScreen extends  JFrame{
         //added the table inside a scrollable panel(vertical)
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
+        scrollPane.getViewport().setBackground(new Color(15, 23, 42));//chnaged color for section below table
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         //All buttons
         //creating a main top container to separates left and right buttons
@@ -51,10 +66,16 @@ public class UserScreen extends  JFrame{
 
         //Everything on the left side
         JPanel leftPanel = new JPanel((new FlowLayout(FlowLayout.LEFT)));
-        //find user by id
-        leftPanel.add(new JLabel("Find By User ID:"));
+        leftPanel.setBackground(new Color(15, 23, 42));//chnaged
+        leftPanel.setForeground(new Color(241, 245, 249));//chnaged
+
+        //find user by id -chnaged this part
+        JLabel findLabel = new JLabel("Find By User ID:");
+        findLabel.setForeground(new Color(241, 245, 249));
+        leftPanel.add(findLabel);
         idField = new JTextField(8);
         leftPanel.add(idField);
+
 
         JButton findButton = new JButton("Find");
         findButton.addActionListener(e -> findUserById());
@@ -76,10 +97,9 @@ public class UserScreen extends  JFrame{
             new DashboardScreen();
         });
 
-
         //creating the right container
         JPanel rightPanel=new JPanel((new FlowLayout(FlowLayout.RIGHT)));
-
+        rightPanel.setBackground(new Color(15, 23, 42));//chnaged
 
         //delete button
         JButton deleteButton = new JButton("Delete");
@@ -101,10 +121,14 @@ public class UserScreen extends  JFrame{
         topContainer.add(leftPanel, BorderLayout.WEST);
         topContainer.add(rightPanel, BorderLayout.EAST);
 
+        //styling topContainer
+        topContainer.setBackground(new Color(15, 23, 42));//chnaged
+
         //adding the top container and backbutton in the frame
         add(topContainer, BorderLayout.NORTH);
         add(backButton,BorderLayout.SOUTH);
     }
+
     //ALL FUNCTIONS
 
     private void addUser() {
@@ -114,15 +138,19 @@ public class UserScreen extends  JFrame{
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
+
 
         // title add user
         JLabel titleLabel = new JLabel("ADD USER", SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         //creating the form
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField usernameField = new JTextField();
@@ -180,7 +208,18 @@ public class UserScreen extends  JFrame{
             // Refresh table
             model.setRowCount(0);
             loadUsers();
+
         });
+        for (Component comp : formPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setForeground(new Color(241, 245, 249));
+            } else if (comp instanceof JTextField) {
+                comp.setBackground(new Color(30, 41, 59));
+                comp.setForeground(Color.WHITE);
+
+                ((JTextField) comp).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
 
         dialog.setVisible(true);
     }
@@ -274,18 +313,21 @@ public class UserScreen extends  JFrame{
 
         // Create dialog
         JDialog dialog = new JDialog(this, "Edit User", true);
+        dialog.getContentPane().setBackground(new Color(15, 23, 42));
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
         //Ttile edit user
         JLabel titleLabel = new JLabel("EDIT USER", SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(241, 245, 249));
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 10, 10, 10));
         dialog.add(titleLabel, BorderLayout.NORTH);
 
         //creating the form
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        formPanel.setBackground(new Color(15, 23, 42));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
 
         JTextField usernameField = new JTextField(username);
@@ -296,7 +338,9 @@ public class UserScreen extends  JFrame{
         JButton updateButton = new JButton("Update");
         JButton cancelButton = new JButton("Cancel");
 
-        formPanel.add(new JLabel("Username:"));
+        JLabel userLbl = new JLabel("Username:");
+        userLbl.setForeground(new Color(241, 245, 249));
+        formPanel.add(userLbl);
         formPanel.add(usernameField);
 
         formPanel.add(new JLabel("Full Name:"));
@@ -349,6 +393,15 @@ public class UserScreen extends  JFrame{
             loadUsers();
 
         });
+        for (Component comp : formPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setForeground(new Color(241, 245, 249));
+            } else if (comp instanceof JTextField) {
+                comp.setBackground(new Color(30, 41, 59));
+                comp.setForeground(Color.WHITE);
+                ((JTextField) comp).setBorder(BorderFactory.createLineBorder(new Color(51, 65, 85)));
+            }
+        }
 
         dialog.setVisible(true);
     }
