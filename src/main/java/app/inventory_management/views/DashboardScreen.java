@@ -76,6 +76,23 @@ public class DashboardScreen extends JFrame {
         buttonPanel.add(analyticsBtn);
         buttonPanel.add(logoutBtn);
 
+        //role base thingy
+
+        User user = SessionManager.getInstance().getCurrentUser();
+        if (user.getRoleId() == 1){
+            // Admin – full access
+            userBtn.setEnabled(true);
+            productBtn.setEnabled(true);
+            salesBtn.setEnabled(true);
+            supplierBtn.setEnabled(true);
+        }
+
+        else if(user.getRoleId() == 2){
+            // Limited role
+            userBtn.setEnabled(false);
+            analyticsBtn.setEnabled(false);
+        }
+
         //action to buttons
         userBtn.addActionListener(e -> {
             dispose();

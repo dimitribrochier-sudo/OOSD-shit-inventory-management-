@@ -202,6 +202,11 @@ public class MakeSalesScreen extends JFrame {
         int qty = Integer.parseInt(quantity.getText().trim());
         double pr = Double.parseDouble(price.getText());
 
+        if(qty > productController.findProduct(productId).getCurrentStock()){
+            JOptionPane.showMessageDialog(this,"Insufficient Stock " + productController.findProduct(productId).getCurrentStock());
+            return;
+        }
+
         saleController.createSale(productId, customerId, qty, pr);
 
         JOptionPane.showMessageDialog(this,"Sale recorded!");
